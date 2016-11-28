@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>RocWay的博客</title>
-    <link>http://JackeyLee007.github.io/index.xml</link>
-    <description>Recent content on RocWay的博客</description>
+    <title>Post-rsses on RocWay的博客</title>
+    <link>http://JackeyLee007.github.io/post/index.xml</link>
+    <description>Recent content in Post-rsses on RocWay的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-zh</language>
     <copyright>RocWay</copyright>
     <lastBuildDate>Mon, 28 Nov 2016 15:43:03 +0800</lastBuildDate>
-    <atom:link href="http://JackeyLee007.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://JackeyLee007.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>second</title>
