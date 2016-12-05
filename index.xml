@@ -28,7 +28,7 @@
 
 &lt;h2 id=&#34;架构模型&#34;&gt;架构模型&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://github.com/JackeyLee007/blogs/blob/master/images/BlogImages/RPC.PNG&#34; alt=&#34;RPC&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/MQvsRPC/RPC.PNG&#34; alt=&#34;RPC&#34; /&gt;
 RPC的特点是：&lt;/p&gt;
 
 &lt;ul&gt;
@@ -37,7 +37,7 @@ RPC的特点是：&lt;/p&gt;
 &lt;li&gt;架构简单、明晰&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://github.com/JackeyLee007/blogs/blob/master/images/BlogImages/MQvsRPC/MQ.PNG&#34; alt=&#34;MQ&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/MQvsRPC/MQ.PNG&#34; alt=&#34;MQ&#34; /&gt;
 MQ的特点是:&lt;/p&gt;
 
 &lt;ul&gt;
