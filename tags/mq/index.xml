@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Post-rsses on RocWay的博客</title>
-    <link>https://JackeyLee007.github.io/post/index.xml</link>
-    <description>Recent content in Post-rsses on RocWay的博客</description>
+    <title>RocWay的博客</title>
+    <link>https://JackeyLee007.github.io/tags/mq/index.xml</link>
+    <description>Recent content on RocWay的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-zh</language>
     <copyright>© 2017 Copyright Text</copyright>
-    <lastBuildDate>Mon, 05 Dec 2016 16:29:06 +0800</lastBuildDate>
-    <atom:link href="https://JackeyLee007.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://JackeyLee007.github.io/tags/mq/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>MQ vs RPC</title>
@@ -73,24 +72,6 @@ MQ的特点是:&lt;/p&gt;
 &lt;p&gt;&amp;emsp;&amp;emsp;在一个由多个微服务构成的大系统中，会有一些非关键服务，用来执行一些不需要立刻得到结果的计算。而且它们的计算结果并不会返回给消息的发送者。这个时候就应该使用MQ。
 &amp;emsp;&amp;emsp;比如在一个ERP系统中有一些日志服务、业务监控服务等。这些服务会发布一些系统事件，针对这些事件可能有多个应用关注。对于日志服务，当系统出现某些异常情况时需要浏览日志，查找问题的根源；也可以在分析系统运行的瓶颈时提供关键数据。对于业务监控系统，例如货物入仓出仓的消息，可以被报表系统关注，生成报表；也可以被配货系统关注，及时补足所需库存。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>cassandra</title>
-      <link>https://jackeylee007.github.io/2016/11/28/cassandra/</link>
-      <pubDate>Mon, 28 Nov 2016 16:58:53 +0800</pubDate>
-      
-      <guid>https://jackeylee007.github.io/2016/11/28/cassandra/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>second</title>
-      <link>https://jackeylee007.github.io/2016/11/28/second/</link>
-      <pubDate>Mon, 28 Nov 2016 15:43:03 +0800</pubDate>
-      
-      <guid>https://jackeylee007.github.io/2016/11/28/second/</guid>
-      <description></description>
     </item>
     
   </channel>
