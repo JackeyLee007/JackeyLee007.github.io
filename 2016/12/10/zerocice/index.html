@@ -1,0 +1,433 @@
+
+<!doctype html>
+<html lang="en-zh">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <title>zerocice</title>
+  <script src="https://jackeylee007.github.io//bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="https://jackeylee007.github.io//bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-drawer-panel/paper-drawer-panel.html">
+  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-fab/paper-fab.html">
+  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-item/paper-item.html">
+  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-menu/paper-menu.html">
+  <link rel="import" href="https://jackeylee007.github.io//bower_components/iron-image/iron-image.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style is="custom-style">
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .nav {
+      border-right: 1px solid #ccc;
+    }
+    
+    paper-scroll-header-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: var(--paper-grey-200, #eee);
+       
+      --paper-scroll-header-panel-full-header: {
+        background-image: url(https://jackeylee007.github.io//images/cover.png);
+      };
+       
+      --paper-scroll-header-panel-condensed-header: {
+        background-image: url(https://jackeylee007.github.io//images/cover.png);
+      };
+    }
+    
+    paper-toolbar {
+       
+      height: 256px;
+      background-color: transparent;
+    }
+    .profile{
+      width: 100%;
+      padding-bottom: 20px;
+    }
+    .photo{
+      margin: 20px;
+      display: inline-block;
+      height: 64px; width: 64px;
+      border-radius: 50%;
+    }
+    .article{
+      border: 1px solid #bebebe;
+      padding: 16px;
+      margin: 16px;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .title{
+      font-size: 22px;
+      padding: 8px 0 16px;
+    }
+    .description{
+      font-size: 16px;
+      padding-bottom: 8px;
+    }
+    .author{
+      font-size: 16px;
+      padding-left: 20px;
+      color: white;
+    }
+    .design{
+      font-size: 14px;
+    }
+    .copyright{
+      font-size: 16px;
+    }
+    paper-menu a {
+      text-decoration: none;
+      color: #212121;
+    }
+  </style>
+
+</head>
+<body>
+  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
+    <div class="nav scroll" drawer>
+    
+      <iron-image class="profile" sizing="cover" src="https://jackeylee007.github.io//images/profile.png">
+    
+        
+          <iron-image class="photo" sizing="cover" src="https://jackeylee007.github.io//images/photo.png"></iron-image>
+        
+          <div class="author">RocWay</div>
+      </iron-image>
+      <paper-menu>
+        <a href="https://jackeylee007.github.io/"><paper-item>
+          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://jackeylee007.github.io//categories/"><paper-item>
+          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://jackeylee007.github.io//tags/"><paper-item>
+          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+      </paper-menu>
+    </div>
+
+    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
+
+      <paper-toolbar>
+
+        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+        <div class="bottom title">RocWay的博客</div>
+        <div class="flex"></div>
+        
+          <a href="https://www.facebook.com/Your%20facebook%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/facebook-dreamstale25.png"></paper-icon-button></a>
+        
+        
+          <a href="https://twitter.com/Your%20Twitter%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/twitter-dreamstale71.png"></paper-icon-button></a>
+        
+        
+          <a href="https://google.com/+Your%20Google&#43;%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/google+-dreamstale37.png"></paper-icon-button></a>
+        
+        
+          <a href="https://www.linkedin.com/in/Your%20linkedin%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/linkedin-dreamstale45.png"></paper-icon-button></a>
+        
+        
+          <a href="https://github.com/JackeyLee007"><paper-icon-button src="https://jackeylee007.github.io//images/github2-dreamstale35.png"></paper-icon-button></a>
+        
+          <a href="https://jackeylee007.github.io//index.xml"><paper-icon-button src="https://jackeylee007.github.io//images/feed-dreamstale27.png"></paper-icon-button></a>
+      
+      </paper-toolbar>
+
+
+
+<div class="content">
+
+  <div class="article">
+    <div class="title">zerocice</div>
+    
+      <div class="categories">
+        
+          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
+        
+          <a href="https://jackeylee007.github.io//categories/zeroc-ice/">zeroc ice</a>
+        
+      </div>
+     
+    <div class="description">
+
+<h2 id="用python开发zeroc-ice应用">用Python开发Zeroc-ICE应用</h2>
+
+<h2 id="安装zeroc-ice">安装Zeroc-ICE</h2>
+
+<blockquote>
+<p>sudo apt-key adv &ndash;keyserver keyserver.ubuntu.com &ndash;recv 5E6DA83306132997
+sudo apt-add-repository &ldquo;deb <a href="http://zeroc.com/download/apt/ubuntu$(lsb_release">http://zeroc.com/download/apt/ubuntu$(lsb_release</a> -rs) stable main&rdquo;
+sudo apt-get update
+sudo apt-get install zeroc-ice-all-runtime zeroc-ice-all-dev</p>
+</blockquote>
+
+<h2 id="安装zeroc-ice的python开发包">安装zeroc-ice的python开发包</h2>
+
+<blockquote>
+<p>sudo -H pip install zeroc-ice</p>
+</blockquote>
+
+<p>安装过程中可能出现缺少某些C/C++头文件的问题，例如缺少python.h、openssl/ssl.h、bzlib.h，这些都是因为没有安装相应的开发包。可以通过如下的命令解决：
+&gt; sudo apt-get install python-dev
+&gt; sudo apt-get install libssl-dev
+&gt; sudo apt-get install libbz2-dev</p>
+
+<h2 id="开发server和client">开发Server和Client</h2>
+
+<h3 id="使用slice语言定义接口">使用slice语言定义接口</h3>
+
+<pre><code>// Printer.ice
+module Demo {
+	interface Printer {
+	     string printString(string s);
+	};
+};
+</code></pre>
+
+<h3 id="生成指定语言的接口文件">生成指定语言的接口文件</h3>
+
+<p>&emsp;&emsp;本次开发采用的语言是python，所以使用</p>
+
+<pre><code>slice2py Printer.ice
+
+</code></pre>
+
+<p>&emsp;&emsp;其他语言可以依此类推，例如slice2java，slice2cpp。
+&emsp;&emsp;命令执行成功，可以看到在目标目录中生成了一个Printer_ice.py文件，以及一个Demo目录。Demo是slice接口文件中定义的module名称。</p>
+
+<h3 id="编写服务器">编写服务器</h3>
+
+<pre><code class="language-pytho">import sys, traceback, Ice 
+import Demo
+
+# PrinterI是接口实现类，Demo.Printer是slice2py生成的接口
+class PrinterI(Demo.Printer):
+    def printString(self, s, current=None):
+        print(s)
+        return &quot;Server Printed: &quot; + s 
+
+status = 0 
+ic = None
+
+try:
+	# 初始化zeroc ice环境
+    ic = Ice.initialize(sys.argv)
+    adapter = ic.createObjectAdapterWithEndpoints(&quot;SimplePrinterAdapter&quot;, &quot;default -p 10000&quot;)
+    object = PrinterI()
+    adapter.add(object, ic.stringToIdentity(&quot;SimplePrinter&quot;))
+    adapter.activate()
+    ic.waitForShutdown()
+except:
+    traceback.print_exc()
+    status = 1 
+
+if ic: 
+    # Clean up
+    try:
+        ic.destroy()
+    except:
+        traceback.print_exc()
+        status = 1 
+
+sys.exit(status)
+</code></pre>
+
+<p>server.cfg内容如下：</p>
+
+<pre><code>PrinterAdapter.AdapterId=PrinterAdapter
+PrinterAdapter.Endpoints=tcp
+</code></pre>
+
+<h3 id="编写客户端">编写客户端</h3>
+
+<pre><code class="language-python">import sys, traceback, Ice 
+import Demo
+
+status = 0 
+ic = None
+
+try:
+    ic = Ice.initialize(sys.argv)
+    base = ic.stringToProxy(&quot;SimplePrinter:default -p 10000&quot;)
+    printer = Demo.PrinterPrx.checkedCast(base)
+    if not printer:
+        raise RuntimeError(&quot;Invalid proxy&quot;)
+
+    rs = printer.printString(&quot;Hello World, I'm talking to you through RPC&quot;)
+    print(rs)
+
+except:
+    traceback.print_exc()
+    status = 1 
+
+if ic: 
+    # Clean up
+    try:
+        ic.destroy()
+    except:
+        traceback.print_exc()
+        status = 1 
+
+sys.exit(status)
+
+</code></pre>
+
+<p>客户端的配置文件如下：</p>
+
+<pre><code>Ice.Default.Locator=SzcIceGrid/Locator:tcp -h 127.0.0.1 -p 4061
+</code></pre>
+
+<h2 id="部署到icegrid">部署到icegrid</h2>
+
+<h3 id="配置注册中心">配置注册中心</h3>
+
+<p>registry.cfg</p>
+
+<pre><code>IceGrid.InstanceName=SzcIceGrid  
+#客户端连接到注册中心的地址  
+IceGrid.Registry.Client.Endpoints=tcp   -p 4061
+IceGrid.Registry.Server.Endpoints=tcp
+IceGrid.Registry.Internal.Endpoints=tcp
+IceGrid.Registry.PermissionsVerifier=SzcIceGrid/NullPermissionsVerifier
+IceGrid.Registry.AdminPermissionsVerifier=SzcIceGrid/NullPermissionsVerifier
+#注册中心数据保存路径,需要手动创建文件夹
+IceGrid.Registry.Data=/home/rocway/test/zerocice/registry
+IceGrid.Registry.DynamicRegistration=1
+Ice.Admin.InstanceName=AdminInstance
+Ice.Admin.ServerId=Admin
+</code></pre>
+
+<h3 id="配置节点">配置节点</h3>
+
+<p>node1.cfg</p>
+
+<pre><code># 注册中心地址  
+Ice.Default.Locator=SzcIceGrid/Locator:tcp -h 127.0.0.1 -p 4061  
+#node名  
+IceGrid.Node.Name=node1  
+IceGrid.Node.Endpoints=tcp  
+#node存储路径  
+IceGrid.Node.Data=/home/rocway/test/zerocice/nodes/node1
+IceGrid.Node.Output=/home/rocway/test/zerocice/nodes/node1
+IceGrid.Node.CollocateRegistry=0
+</code></pre>
+
+<h3 id="应用描述文件">应用描述文件</h3>
+
+<pre><code class="language-xml">&lt;icegrid&gt;
+    &lt;application name=&quot;PrinterApplication&quot;&gt;
+        &lt;node name=&quot;node1&quot;&gt;
+            &lt;server id=&quot;PrinterServer&quot; exe=&quot;python&quot; activation=&quot;on-demand&quot;&gt;
+                &lt;adapter name=&quot;PrinterAdapter&quot; endpoints=&quot;tcp -h 127.0.0.1&quot;&gt;
+                    &lt;object identity=&quot;SimplePrinter&quot; type=&quot;::Demo::Printer&quot; property=&quot;Identity&quot;/&gt;
+                &lt;/adapter&gt;
+                &lt;option&gt;/home/rocway/test/zerocice/Server.py&lt;/option&gt;   
+                &lt;property name=&quot;Ice.Trace.Network&quot; value=&quot;1&quot;/&gt;
+                &lt;properties&gt;  
+                    &lt;property name=&quot;Ice.ThreadPool.Server.SizeMax&quot; value=&quot;1&quot; /&gt;  
+                &lt;/properties&gt;  
+                        &lt;property name=&quot;IceMX.Metrics.Debug.GroupBy&quot; value=&quot;id&quot;/&gt;
+                        &lt;property name=&quot;IceMX.Metrics.Debug.Disabled&quot; value=&quot;1&quot;/&gt;
+                        &lt;property name=&quot;IceMX.Metrics.ByParent.GroupBy&quot; value=&quot;parent&quot;/&gt;
+                        &lt;property name=&quot;IceMX.Metrics.ByParent.Disabled&quot; value=&quot;1&quot;/&gt;     
+            &lt;/server&gt;
+        &lt;/node&gt;
+    &lt;/application&gt;
+&lt;/icegrid&gt;
+
+</code></pre>
+
+<h3 id="启动icegrid">启动icegrid</h3>
+
+<ol>
+<li>启动icegrid注册中心
+icegridregistry &ndash;Ice.Config=registry.cfg
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_registry.PNG" alt="" /></li>
+<li>启动某个节点
+icegridnode &ndash;Ice.Config=node1.cfg
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_node.PNG" alt="" /></li>
+<li>启动节点上的应用管理程序, 并添加应用
+icegridadmin &ndash;Ice.Config=node1.cfg
+application add app.xml
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_admin_node.PNG" alt="" /></li>
+<li>查看已经添加的应用
+application describe PrinterApplication
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_describe_application.PNG" alt="" /></li>
+<li>启动各节点上的应用服务
+icegridgui
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/connect_grid.PNG" alt="" />
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_server.PNG" alt="" /></li>
+<li>运行客户端程序
+python Client.py
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_ClientRun_Server_Response.PNG" alt="" />
+```</li>
+</ol>
+</div>
+    <div class="tags">
+      10 Dec 2016
+      
+        
+          <a href="https://jackeylee007.github.io//tags/rpc/">#rpc</a>
+        
+       
+    </div>
+    
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'Your Disqus Name';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    
+  </div>
+
+</div>
+
+<paper-item>
+  
+    <paper-fab disabled icon="chevron-left"></paper-fab>
+  
+    <div class="flex"></div>
+  
+    <a href="https://jackeylee007.github.io/2016/12/05/mqvsrpc/"><paper-fab icon="chevron-right"></paper-fab></a>
+  
+</paper-item>
+
+      <paper-item>
+        <div class="copyright">© 2017 Copyright Text</div>
+        <div class="flex"></div>
+        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </paper-item>
+    </paper-scroll-header-panel>
+  </paper-drawer-panel>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'Your Analytics User Id', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</body>
+</html>

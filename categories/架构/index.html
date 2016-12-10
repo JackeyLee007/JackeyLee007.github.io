@@ -149,6 +149,32 @@
 
 
   <div class="article">
+    <div class="title"><a href="https://jackeylee007.github.io/2016/12/10/zerocice/">zerocice</a></div>
+    
+      <div class="categories">
+        
+          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
+        
+          <a href="https://jackeylee007.github.io//categories/zeroc-ice/">zeroc ice</a>
+        
+      </div>
+     
+    <div class="description">用Python开发Zeroc-ICE应用 安装Zeroc-ICE  sudo apt-key adv &ndash;keyserver keyserver.ubuntu.com &ndash;recv 5E6DA83306132997 sudo apt-add-repository &ldquo;deb http://zeroc.com/download/apt/ubuntu$(lsb_release -rs) stable main&rdquo; sudo apt-get update sudo apt-get install zeroc-ice-all-runtime zeroc-ice-all-dev
+ 安装zeroc-ice的python开发包  sudo -H pip install zeroc-ice
+ 安装过程中可能出现缺少某些C/C++头文件的问题，例如缺少python.h、openssl/ssl.h、bzlib.h，这些都是因为没有安装相应的开发包。可以通过如下的命令解决： &gt; sudo apt-get install python-dev &gt; sudo apt-get install libssl-dev &gt; sudo apt-get install libbz2-dev
+开发Server和Client 使用slice语言定义接口 // Printer.ice module Demo { interface Printer { string printString(string s); }; };  生成指定语言的接口文件 &emsp;&emsp;本次开发采用的语言是python，所以使用
+slice2py Printer.</div>
+    <div class="tags">
+      10 Dec 2016
+      
+        
+          <a href="https://jackeylee007.github.io//tags/rpc/">#rpc</a>
+        
+       
+    </div>
+  </div>
+
+  <div class="article">
     <div class="title"><a href="https://jackeylee007.github.io/2016/12/05/mqvsrpc/">MQ vs RPC</a></div>
     
       <div class="categories">

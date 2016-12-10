@@ -7,8 +7,231 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-zh</language>
     <copyright>© 2017 Copyright Text</copyright>
-    <lastBuildDate>Mon, 05 Dec 2016 16:29:06 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 10 Dec 2016 17:13:36 +0800</lastBuildDate>
     <atom:link href="https://JackeyLee007.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>zerocice</title>
+      <link>https://jackeylee007.github.io/2016/12/10/zerocice/</link>
+      <pubDate>Sat, 10 Dec 2016 17:13:36 +0800</pubDate>
+      
+      <guid>https://jackeylee007.github.io/2016/12/10/zerocice/</guid>
+      <description>
+
+&lt;h2 id=&#34;用python开发zeroc-ice应用&#34;&gt;用Python开发Zeroc-ICE应用&lt;/h2&gt;
+
+&lt;h2 id=&#34;安装zeroc-ice&#34;&gt;安装Zeroc-ICE&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;sudo apt-key adv &amp;ndash;keyserver keyserver.ubuntu.com &amp;ndash;recv 5E6DA83306132997
+sudo apt-add-repository &amp;ldquo;deb &lt;a href=&#34;http://zeroc.com/download/apt/ubuntu$(lsb_release&#34;&gt;http://zeroc.com/download/apt/ubuntu$(lsb_release&lt;/a&gt; -rs) stable main&amp;rdquo;
+sudo apt-get update
+sudo apt-get install zeroc-ice-all-runtime zeroc-ice-all-dev&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;安装zeroc-ice的python开发包&#34;&gt;安装zeroc-ice的python开发包&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;sudo -H pip install zeroc-ice&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;安装过程中可能出现缺少某些C/C++头文件的问题，例如缺少python.h、openssl/ssl.h、bzlib.h，这些都是因为没有安装相应的开发包。可以通过如下的命令解决：
+&amp;gt; sudo apt-get install python-dev
+&amp;gt; sudo apt-get install libssl-dev
+&amp;gt; sudo apt-get install libbz2-dev&lt;/p&gt;
+
+&lt;h2 id=&#34;开发server和client&#34;&gt;开发Server和Client&lt;/h2&gt;
+
+&lt;h3 id=&#34;使用slice语言定义接口&#34;&gt;使用slice语言定义接口&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;// Printer.ice
+module Demo {
+	interface Printer {
+	     string printString(string s);
+	};
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;生成指定语言的接口文件&#34;&gt;生成指定语言的接口文件&lt;/h3&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;本次开发采用的语言是python，所以使用&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;slice2py Printer.ice
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;其他语言可以依此类推，例如slice2java，slice2cpp。
+&amp;emsp;&amp;emsp;命令执行成功，可以看到在目标目录中生成了一个Printer_ice.py文件，以及一个Demo目录。Demo是slice接口文件中定义的module名称。&lt;/p&gt;
+
+&lt;h3 id=&#34;编写服务器&#34;&gt;编写服务器&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-pytho&#34;&gt;import sys, traceback, Ice 
+import Demo
+
+# PrinterI是接口实现类，Demo.Printer是slice2py生成的接口
+class PrinterI(Demo.Printer):
+    def printString(self, s, current=None):
+        print(s)
+        return &amp;quot;Server Printed: &amp;quot; + s 
+
+status = 0 
+ic = None
+
+try:
+	# 初始化zeroc ice环境
+    ic = Ice.initialize(sys.argv)
+    adapter = ic.createObjectAdapterWithEndpoints(&amp;quot;SimplePrinterAdapter&amp;quot;, &amp;quot;default -p 10000&amp;quot;)
+    object = PrinterI()
+    adapter.add(object, ic.stringToIdentity(&amp;quot;SimplePrinter&amp;quot;))
+    adapter.activate()
+    ic.waitForShutdown()
+except:
+    traceback.print_exc()
+    status = 1 
+
+if ic: 
+    # Clean up
+    try:
+        ic.destroy()
+    except:
+        traceback.print_exc()
+        status = 1 
+
+sys.exit(status)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;server.cfg内容如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;PrinterAdapter.AdapterId=PrinterAdapter
+PrinterAdapter.Endpoints=tcp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;编写客户端&#34;&gt;编写客户端&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import sys, traceback, Ice 
+import Demo
+
+status = 0 
+ic = None
+
+try:
+    ic = Ice.initialize(sys.argv)
+    base = ic.stringToProxy(&amp;quot;SimplePrinter:default -p 10000&amp;quot;)
+    printer = Demo.PrinterPrx.checkedCast(base)
+    if not printer:
+        raise RuntimeError(&amp;quot;Invalid proxy&amp;quot;)
+
+    rs = printer.printString(&amp;quot;Hello World, I&#39;m talking to you through RPC&amp;quot;)
+    print(rs)
+
+except:
+    traceback.print_exc()
+    status = 1 
+
+if ic: 
+    # Clean up
+    try:
+        ic.destroy()
+    except:
+        traceback.print_exc()
+        status = 1 
+
+sys.exit(status)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;客户端的配置文件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Ice.Default.Locator=SzcIceGrid/Locator:tcp -h 127.0.0.1 -p 4061
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;部署到icegrid&#34;&gt;部署到icegrid&lt;/h2&gt;
+
+&lt;h3 id=&#34;配置注册中心&#34;&gt;配置注册中心&lt;/h3&gt;
+
+&lt;p&gt;registry.cfg&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;IceGrid.InstanceName=SzcIceGrid  
+#客户端连接到注册中心的地址  
+IceGrid.Registry.Client.Endpoints=tcp   -p 4061
+IceGrid.Registry.Server.Endpoints=tcp
+IceGrid.Registry.Internal.Endpoints=tcp
+IceGrid.Registry.PermissionsVerifier=SzcIceGrid/NullPermissionsVerifier
+IceGrid.Registry.AdminPermissionsVerifier=SzcIceGrid/NullPermissionsVerifier
+#注册中心数据保存路径,需要手动创建文件夹
+IceGrid.Registry.Data=/home/rocway/test/zerocice/registry
+IceGrid.Registry.DynamicRegistration=1
+Ice.Admin.InstanceName=AdminInstance
+Ice.Admin.ServerId=Admin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;配置节点&#34;&gt;配置节点&lt;/h3&gt;
+
+&lt;p&gt;node1.cfg&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# 注册中心地址  
+Ice.Default.Locator=SzcIceGrid/Locator:tcp -h 127.0.0.1 -p 4061  
+#node名  
+IceGrid.Node.Name=node1  
+IceGrid.Node.Endpoints=tcp  
+#node存储路径  
+IceGrid.Node.Data=/home/rocway/test/zerocice/nodes/node1
+IceGrid.Node.Output=/home/rocway/test/zerocice/nodes/node1
+IceGrid.Node.CollocateRegistry=0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;应用描述文件&#34;&gt;应用描述文件&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;icegrid&amp;gt;
+    &amp;lt;application name=&amp;quot;PrinterApplication&amp;quot;&amp;gt;
+        &amp;lt;node name=&amp;quot;node1&amp;quot;&amp;gt;
+            &amp;lt;server id=&amp;quot;PrinterServer&amp;quot; exe=&amp;quot;python&amp;quot; activation=&amp;quot;on-demand&amp;quot;&amp;gt;
+                &amp;lt;adapter name=&amp;quot;PrinterAdapter&amp;quot; endpoints=&amp;quot;tcp -h 127.0.0.1&amp;quot;&amp;gt;
+                    &amp;lt;object identity=&amp;quot;SimplePrinter&amp;quot; type=&amp;quot;::Demo::Printer&amp;quot; property=&amp;quot;Identity&amp;quot;/&amp;gt;
+                &amp;lt;/adapter&amp;gt;
+                &amp;lt;option&amp;gt;/home/rocway/test/zerocice/Server.py&amp;lt;/option&amp;gt;   
+                &amp;lt;property name=&amp;quot;Ice.Trace.Network&amp;quot; value=&amp;quot;1&amp;quot;/&amp;gt;
+                &amp;lt;properties&amp;gt;  
+                    &amp;lt;property name=&amp;quot;Ice.ThreadPool.Server.SizeMax&amp;quot; value=&amp;quot;1&amp;quot; /&amp;gt;  
+                &amp;lt;/properties&amp;gt;  
+                        &amp;lt;property name=&amp;quot;IceMX.Metrics.Debug.GroupBy&amp;quot; value=&amp;quot;id&amp;quot;/&amp;gt;
+                        &amp;lt;property name=&amp;quot;IceMX.Metrics.Debug.Disabled&amp;quot; value=&amp;quot;1&amp;quot;/&amp;gt;
+                        &amp;lt;property name=&amp;quot;IceMX.Metrics.ByParent.GroupBy&amp;quot; value=&amp;quot;parent&amp;quot;/&amp;gt;
+                        &amp;lt;property name=&amp;quot;IceMX.Metrics.ByParent.Disabled&amp;quot; value=&amp;quot;1&amp;quot;/&amp;gt;     
+            &amp;lt;/server&amp;gt;
+        &amp;lt;/node&amp;gt;
+    &amp;lt;/application&amp;gt;
+&amp;lt;/icegrid&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;启动icegrid&#34;&gt;启动icegrid&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;启动icegrid注册中心
+icegridregistry &amp;ndash;Ice.Config=registry.cfg
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_registry.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;启动某个节点
+icegridnode &amp;ndash;Ice.Config=node1.cfg
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_node.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;启动节点上的应用管理程序, 并添加应用
+icegridadmin &amp;ndash;Ice.Config=node1.cfg
+application add app.xml
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_admin_node.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;查看已经添加的应用
+application describe PrinterApplication
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_describe_application.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;启动各节点上的应用服务
+icegridgui
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/connect_grid.PNG&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_server.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;运行客户端程序
+python Client.py
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_ClientRun_Server_Response.PNG&#34; alt=&#34;&#34; /&gt;
+```&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
     
     <item>
       <title>MQ vs RPC</title>
