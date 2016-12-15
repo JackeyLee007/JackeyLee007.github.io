@@ -164,7 +164,7 @@
 
 <h2 id="zeroc-ice简介">Zeroc Ice简介</h2>
 
-<p>&emsp;&emsp;Zeroc ICE（Internet Communications Engine ，互联网通信引擎）是目前功能比较强大和完善的RPC框架，支持跨平台、跨语言调用。它非常灵活，可以通过TCP、UDP、SSL/TSL或WebSocket连接，支持同步、异步调用，以及服务器和客户端之间的双向连接。Zeroc ICE的效率非常高，它使用一种高效的二进制协议，对带宽的消耗比较小。甚至对于通过卫星的RPC调用，Zeroc ICE还可以对数据流进一步压缩。另外Zeroc ICE还可以在不解包的情况下转发调用请求，省去普通转发时的解包、重新压包的时间。
+<p>&emsp;&emsp;Zeroc ICE（Internet Communications Engine ，互联网通信引擎）是目前功能比较强大和完善的RPC框架，支持跨平台、跨语言调用。它非常灵活，可以通过TCP、UDP、SSL/TSL或WebSocket连接，支持同步、异步调用，以及服务器和客户端之间的双向连接。Zeroc ICE的效率非常高，它使用一种高效的二进制协议，对带宽的消耗比较小。甚至对于通过卫星的RPC调用，Zeroc ICE还可以对数据流进一步压缩。另外Zeroc ICE还可以在不解包的情况下转发调用请求，省去普通转发时的解包、重新压包的时间。<br />
 &emsp;&emsp;Zeroc ICE的应用还可以部署在icegrid上，实现网格计算，即客户端调用时不必指定目标主机，由ICE负责查找；服务端也可以在调用时才开启，动态加载；同样的服务也可以部署多个，实现高可用。</p>
 
 <h2 id="实验简介">实验简介</h2>
@@ -172,10 +172,11 @@
 <p>&emsp;&emsp;Zeroc ICE支持跨语言RPC调用，包括C++、C#、Java、JavaScript、Python、Objective-C、Ruby、PHP、VB等。本次实验采用Python（Pyhon 2.7以上，或者Python 3都可以）。实验的内容是在icegrid上部署一个简单的服务器，当客户端调用时输出指定内容，并返回一个字符串。实验步骤如下：</p>
 
 <ul>
-<li>安装Zeroc ICE</li>
-<li>开发服务端和客户端程序</li>
-<li>部署到icegrid</li>
-<li>客户端调用</li>
+<li>安装Zeroc ICE<br /></li>
+<li>开发服务端和客户端程序<br /></li>
+<li>部署到icegrid<br /></li>
+<li>客户端调用<br />
+<br /></li>
 </ul>
 
 <h2 id="环境准备">环境准备</h2>
@@ -184,22 +185,22 @@
 
 <h3 id="安装zeroc-ice">安装Zeroc Ice</h3>
 
-<p>&emsp;&emsp; 如果系统中没有安装Zeroc ICE，并且ubuntu的软件源中也没有zeroc ice，可以按照下面的步骤安装。
-&gt; sudo apt-key adv &ndash;keyserver keyserver.ubuntu.com &ndash;recv 5E6DA83306132997
-&gt; sudo apt-add-repository &ldquo;deb <a href="http://zeroc.com/download/apt/ubuntu$(lsb_release">http://zeroc.com/download/apt/ubuntu$(lsb_release</a> -rs) stable main&rdquo;
-&gt; sudo apt-get update
+<p>&emsp;&emsp; 如果系统中没有安装Zeroc ICE，并且ubuntu的软件源中也没有zeroc ice，可以按照下面的步骤安装。<br />
+&gt; sudo apt-key adv &ndash;keyserver keyserver.ubuntu.com &ndash;recv 5E6DA83306132997<br />
+&gt; sudo apt-add-repository &ldquo;deb <a href="http://zeroc.com/download/apt/ubuntu$(lsb_release">http://zeroc.com/download/apt/ubuntu$(lsb_release</a> -rs) stable main&rdquo;<br />
+&gt; sudo apt-get update<br />
 &gt; sudo apt-get install zeroc-ice-all-runtime zeroc-ice-all-dev</p>
 
 <p>&emsp;&emsp;安装之后系统中就有了slice2cpp、slice2java等Sliece（Zeroc ICE定义的接口描述语言，IDL）文件到相应语言的转换程序，以及icegrid、iceregistry、icegridadmin等程序。如果缺少目标语言的工具（例如slice2py）或开发包，还需要特别安装。</p>
 
 <h3 id="安装zeroc-ice的python开发包">安装Zeroc ICE的python开发包</h3>
 
-<p>&emsp;&emsp;当然在这一步之前应当首先安装python和pip（python的依赖管理工具），此处略。Zeroc ICE的python开发包（或者模块）叫zeroc-ice，可以使用pip安装。
+<p>&emsp;&emsp;当然在这一步之前应当首先安装python和pip（python的依赖管理工具），此处略。Zeroc ICE的python开发包（或者模块）叫zeroc-ice，可以使用pip安装。<br />
 &gt; sudo -H pip install zeroc-ice</p>
 
-<p>&emsp;&emsp;安装过程中可能出现缺少某些C/C++头文件的问题，例如缺少python.h、openssl/ssl.h、bzlib.h，这些都是因为没有安装相应的开发包。可以通过如下的命令解决：
-&gt; sudo apt-get install python-dev
-&gt; sudo apt-get install libssl-dev
+<p>&emsp;&emsp;安装过程中可能出现缺少某些C/C++头文件的问题，例如缺少python.h、openssl/ssl.h、bzlib.h，这些都是因为没有安装相应的开发包。可以通过如下的命令解决：<br />
+&gt; sudo apt-get install python-dev<br />
+&gt; sudo apt-get install libssl-dev<br />
 &gt; sudo apt-get install libbz2-dev</p>
 
 <h2 id="开发server和client">开发Server和Client</h2>
@@ -207,10 +208,11 @@
 <p>&emsp;&emsp;下面即是真正的服务端和客户端开发。开发过程通常是:</p>
 
 <ul>
-<li>使用Slice语言定义语言无关的接口文件</li>
-<li>转换成指定语言的接口文件</li>
-<li>根据接口文件开发服务端和客户端程序</li>
-<li>书写服务端和客户端的配置文件</li>
+<li>使用Slice语言定义语言无关的接口文件<br /></li>
+<li>转换成指定语言的接口文件<br /></li>
+<li>根据接口文件开发服务端和客户端程序<br /></li>
+<li>书写服务端和客户端的配置文件<br />
+<br /></li>
 </ul>
 
 <h3 id="使用slice语言定义接口">使用slice语言定义接口</h3>
@@ -225,10 +227,10 @@ module Demo {
 
 <h3 id="生成指定语言的接口文件">生成指定语言的接口文件</h3>
 
-<p>&emsp;&emsp;本次开发采用的语言是python，所以使用
+<p>&emsp;&emsp;本次开发采用的语言是python，所以使用<br />
 &gt; slice2py Printer.ice</p>
 
-<p>&emsp;&emsp;其他语言可以依此类推，例如slice2java，slice2cpp。
+<p>&emsp;&emsp;其他语言可以依此类推，例如slice2java，slice2cpp。<br />
 &emsp;&emsp;命令执行成功，可以看到在目标目录中生成了一个Printer_ice.py文件，以及一个Demo目录。Demo是slice接口文件中定义的module名称。</p>
 
 <h3 id="编写服务器">编写服务器</h3>
@@ -325,18 +327,18 @@ sys.exit(status)
 
 <h3 id="客户端直连服务端">客户端直连服务端</h3>
 
-<p>&emsp;&emsp;上述程序开发完毕之后不用部署到icegrid就可以直接运行，配置文件是用来在icegrid上定位和连接服务。此时可以一边运行服务端，一边运行客户端，检验一下它们的功能。
+<p>&emsp;&emsp;上述程序开发完毕之后不用部署到icegrid就可以直接运行，配置文件是用来在icegrid上定位和连接服务。此时可以一边运行服务端，一边运行客户端，检验一下它们的功能。<br />
 &gt; python Server.py</p>
 
-<p>&emsp;&emsp;运行之后可以看到进程并没有结束，一直在等待连接。然后另起一个终端，运行客户端程序。
+<p>&emsp;&emsp;运行之后可以看到进程并没有结束，一直在等待连接。然后另起一个终端，运行客户端程序。<br />
 &gt; python Client.py</p>
 
-<p>&emsp;&emsp;运行之后可以看到服务端和客户端窗口的输出。
+<p>&emsp;&emsp;运行之后可以看到服务端和客户端窗口的输出。<br />
 <img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/client_to_server.PNG" alt="" /></p>
 
 <h2 id="部署到icegrid">部署到icegrid</h2>
 
-<p>&emsp;&emsp;icegrid是Zeroc ICE的云计算解决方案。它可以将各种服务端部署在多台机器上，并为客户端调用提供服务定位、服务激活、负载均衡、故障转移等服务。客户端只要连接到指定的服务注册中心，就可以根据服务名称（这里是SimplePrinter），以及连接协议（Endpoints，这里是tcp）就可以找到相应的服务。服务在注册时也不必处在运行状态，可以由icegrid根据调用请求，自动启动。
+<p>&emsp;&emsp;icegrid是Zeroc ICE的云计算解决方案。它可以将各种服务端部署在多台机器上，并为客户端调用提供服务定位、服务激活、负载均衡、故障转移等服务。客户端只要连接到指定的服务注册中心，就可以根据服务名称（这里是SimplePrinter），以及连接协议（Endpoints，这里是tcp）就可以找到相应的服务。服务在注册时也不必处在运行状态，可以由icegrid根据调用请求，自动启动。<br />
 <img src="https://doc.zeroc.com/download/attachments/16716477/Simple_IceGrid_application.gif?version=1&amp;modificationDate=1432840085000&amp;api=v2" alt="" /></p>
 
 <h3 id="配置注册中心">配置注册中心</h3>
@@ -361,7 +363,7 @@ Ice.Admin.ServerId=Admin
 
 <h3 id="配置节点">配置节点</h3>
 
-<p>&emsp;&emsp;节点是服务所在的机器。在实际生产环境中，服务注册中心也可以运行在其中某个节点上。
+<p>&emsp;&emsp;节点是服务所在的机器。在实际生产环境中，服务注册中心也可以运行在其中某个节点上。<br />
 node1.cfg（服务所在节点的配置文件）</p>
 
 <pre><code># 注册中心地址  
@@ -379,7 +381,7 @@ IceGrid.Node.CollocateRegistry=0
 
 <h3 id="应用描述文件">应用描述文件</h3>
 
-<p>&emsp;&emsp;应用描述文件用来描述服务端程序在icegrid中的部署情况。包括应用的名称、服务程序的路径、执行参数等等。
+<p>&emsp;&emsp;应用描述文件用来描述服务端程序在icegrid中的部署情况。包括应用的名称、服务程序的路径、执行参数等等。<br />
 app.xml</p>
 
 <pre><code class="language-xml">&lt;icegrid&gt;
@@ -408,33 +410,33 @@ app.xml</p>
 <h3 id="启动icegrid">启动icegrid</h3>
 
 <ol>
-<li>启动icegrid注册中心
-icegridregistry &ndash;Ice.Config=registry.cfg
-<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_registry.PNG" alt="" /></li>
-<li>启动某个节点
-icegridnode &ndash;Ice.Config=node1.cfg
-<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_node.PNG" alt="" /></li>
-<li>启动节点上的应用管理程序, 并添加应用
-icegridadmin &ndash;Ice.Config=node1.cfg
-application add app.xml
-<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_admin_node.PNG" alt="" /></li>
-<li>查看已经添加的应用
-application describe PrinterApplication
-<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_describe_application.PNG" alt="" /></li>
-<li>启动各节点上的应用服务
-icegridgui
-<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/connect_grid.PNG" alt="" />
-<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_server.PNG" alt="" /></li>
+<li>启动icegrid注册中心<br />
+icegridregistry &ndash;Ice.Config=registry.cfg<br />
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_registry.PNG" alt="" /><br /></li>
+<li>启动某个节点<br />
+icegridnode &ndash;Ice.Config=node1.cfg<br />
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_node.PNG" alt="" /><br /></li>
+<li>启动节点上的应用管理程序, 并添加应用<br />
+icegridadmin &ndash;Ice.Config=node1.cfg<br />
+application add app.xml<br />
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_admin_node.PNG" alt="" /><br /></li>
+<li>查看已经添加的应用<br />
+application describe PrinterApplication<br />
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_describe_application.PNG" alt="" /><br /></li>
+<li>启动各节点上的应用服务<br />
+icegridgui<br />
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/connect_grid.PNG" alt="" /><br />
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_server.PNG" alt="" /><br /></li>
 
-<li><p>运行客户端程序
-python Client.py
-<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_ClientRun_Server_Response.PNG" alt="" />
+<li><p>运行客户端程序<br />
+python Client.py<br />
+<img src="http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_ClientRun_Server_Response.PNG" alt="" /><br />
 ```</p>
 
 <h2 id="实验总结">实验总结</h2></li>
 </ol>
 
-<p>&emsp;&emsp;此次实验实现了在icegrid上部署服务程序，客户端通过icegrid的服务注册中心调用该服务。实验中服务端和客户端使用的都是Python，有兴趣的同学也可以分别使用不同的语言开发服务端和客户端，尝试一下Zeroc ICE的跨语言RPC调用。
+<p>&emsp;&emsp;此次实验实现了在icegrid上部署服务程序，客户端通过icegrid的服务注册中心调用该服务。实验中服务端和客户端使用的都是Python，有兴趣的同学也可以分别使用不同的语言开发服务端和客户端，尝试一下Zeroc ICE的跨语言RPC调用。<br />
 &emsp;&emsp;本次实验就到这里，有关Zeroc ICE的其他内容请关注后续的课程。</p>
 
 <h2 id="版权声明">版权声明</h2>
@@ -472,7 +474,7 @@ python Client.py
 
 <paper-item>
   
-    <paper-fab disabled icon="chevron-left"></paper-fab>
+    <a href="https://jackeylee007.github.io/2016/12/15/kafka_leader_election/"><paper-fab icon="chevron-left"><a></a></paper-fab></a>
   
     <div class="flex"></div>
   

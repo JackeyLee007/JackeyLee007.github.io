@@ -7,8 +7,43 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-zh</language>
     <copyright>© 2017 Copyright Text</copyright>
-    <lastBuildDate>Sat, 10 Dec 2016 17:13:36 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 15 Dec 2016 11:22:27 +0800</lastBuildDate>
     <atom:link href="https://JackeyLee007.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Kafka是如何选择Leader的</title>
+      <link>https://jackeylee007.github.io/2016/12/15/kafka_leader_election/</link>
+      <pubDate>Thu, 15 Dec 2016 11:22:27 +0800</pubDate>
+      
+      <guid>https://jackeylee007.github.io/2016/12/15/kafka_leader_election/</guid>
+      <description>
+
+&lt;h2 id=&#34;kafka是如何选择leader的&#34;&gt;Kafka是如何选择Leader的&lt;/h2&gt;
+
+&lt;h2 id=&#34;kafka的leader是什么&#34;&gt;Kafka的Leader是什么&lt;/h2&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;首先Kafka会将接收到的消息分区（partition），每个主题（topic）的消息有不同的分区。这样一方面消息的存储就不会受到单一服务器存储空间大小的限制，另一方面消息的处理也可以在多个服务器上并行。&lt;br /&gt;
+&amp;emsp;&amp;emsp;其次为了保证高可用，每个分区都会有一定数量的副本（replica）。这样如果有部分服务器不可用，副本所在的服务器就会接替上来，保证应用的持续性。&lt;br /&gt;
+&lt;img src=&#34;http://kafka.apache.org/0101/images/log_anatomy.png&#34; alt=&#34;&#34; /&gt;&lt;br /&gt;
+&amp;emsp;&amp;emsp;但是，为了保证较高的处理效率，消息的读写都是在固定的一个副本上完成。这个副本就是所谓的Leader，而其他副本则是Follower。而Follower则会定期地到Leader上同步数据。&lt;/p&gt;
+
+&lt;h2 id=&#34;leader选举&#34;&gt;Leader选举&lt;/h2&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;如果某个分区所在的服务器除了问题，不可用，kafka会从该分区的其他的副本中选择一个作为新的Leader。之后所有的读写就会转移到这个新的Leader上。现在的问题是应当选择哪个作为新的Leader。显然，只有那些跟Leader保持同步的Follower才应该被选作新的Leader。&lt;br /&gt;
+&amp;emsp;&amp;emsp;Kafka会在Zookeeper上针对每个Topic维护一个称为ISR（in-sync replica，已同步的副本）的集合，该集合中是一些分区的副本。只有当这些副本都跟Leader中的副本同步了之后，kafka才会认为消息已提交，并反馈给消息的生产者。如果这个集合有增减，kafka会更新zookeeper上的记录。&lt;br /&gt;
+&amp;emsp;&amp;emsp;如果某个分区的Leader不可用，Kafka就会从ISR集合中选择&lt;strong&gt;&lt;em&gt;一个&lt;/em&gt;&lt;/strong&gt;副本作为新的Leader。&lt;br /&gt;
+&amp;emsp;&amp;emsp;显然通过ISR，kafka需要的冗余度较低，可以容忍的失败数比较高。假设某个topic有f+1个副本，kafka可以容忍f个服务器不可用。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么不用少数服从多数的方法&#34;&gt;为什么不用少数服从多数的方法&lt;/h2&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;少数服从多数是一种比较常见的一致性算法和Leader选举法。它的含义是只有超过半数的副本同步了，系统才会认为数据已同步；选择Leader时也是从超过半数的同步的副本中选择。这种算法需要较高的冗余度。譬如只允许一台机器失败，需要有三个副本；而如果只容忍两台机器失败，则需要五个副本。而kafka的ISR集合方法，分别只需要两个和三个副本。&lt;/p&gt;
+
+&lt;h2 id=&#34;如果所有的isr副本都失败了怎么办&#34;&gt;如果所有的ISR副本都失败了怎么办&lt;/h2&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;此时有两种方法可选，一种是等待ISR集合中的副本复活，一种是选择任何一个立即可用的副本，而这个副本不一定是在ISR集合中。这两种方法各有利弊，实际生产中按需选择。&lt;br /&gt;
+&amp;emsp;&amp;emsp;如果要等待ISR副本复活，虽然可以保证一致性，但可能需要很长时间。而如果选择立即可用的副本，则很可能该副本并不一致。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>用Python开发Zeroc Ice应用</title>
@@ -22,7 +57,7 @@
 
 &lt;h2 id=&#34;zeroc-ice简介&#34;&gt;Zeroc Ice简介&lt;/h2&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;Zeroc ICE（Internet Communications Engine ，互联网通信引擎）是目前功能比较强大和完善的RPC框架，支持跨平台、跨语言调用。它非常灵活，可以通过TCP、UDP、SSL/TSL或WebSocket连接，支持同步、异步调用，以及服务器和客户端之间的双向连接。Zeroc ICE的效率非常高，它使用一种高效的二进制协议，对带宽的消耗比较小。甚至对于通过卫星的RPC调用，Zeroc ICE还可以对数据流进一步压缩。另外Zeroc ICE还可以在不解包的情况下转发调用请求，省去普通转发时的解包、重新压包的时间。
+&lt;p&gt;&amp;emsp;&amp;emsp;Zeroc ICE（Internet Communications Engine ，互联网通信引擎）是目前功能比较强大和完善的RPC框架，支持跨平台、跨语言调用。它非常灵活，可以通过TCP、UDP、SSL/TSL或WebSocket连接，支持同步、异步调用，以及服务器和客户端之间的双向连接。Zeroc ICE的效率非常高，它使用一种高效的二进制协议，对带宽的消耗比较小。甚至对于通过卫星的RPC调用，Zeroc ICE还可以对数据流进一步压缩。另外Zeroc ICE还可以在不解包的情况下转发调用请求，省去普通转发时的解包、重新压包的时间。&lt;br /&gt;
 &amp;emsp;&amp;emsp;Zeroc ICE的应用还可以部署在icegrid上，实现网格计算，即客户端调用时不必指定目标主机，由ICE负责查找；服务端也可以在调用时才开启，动态加载；同样的服务也可以部署多个，实现高可用。&lt;/p&gt;
 
 &lt;h2 id=&#34;实验简介&#34;&gt;实验简介&lt;/h2&gt;
@@ -30,10 +65,11 @@
 &lt;p&gt;&amp;emsp;&amp;emsp;Zeroc ICE支持跨语言RPC调用，包括C++、C#、Java、JavaScript、Python、Objective-C、Ruby、PHP、VB等。本次实验采用Python（Pyhon 2.7以上，或者Python 3都可以）。实验的内容是在icegrid上部署一个简单的服务器，当客户端调用时输出指定内容，并返回一个字符串。实验步骤如下：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;安装Zeroc ICE&lt;/li&gt;
-&lt;li&gt;开发服务端和客户端程序&lt;/li&gt;
-&lt;li&gt;部署到icegrid&lt;/li&gt;
-&lt;li&gt;客户端调用&lt;/li&gt;
+&lt;li&gt;安装Zeroc ICE&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;开发服务端和客户端程序&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;部署到icegrid&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;客户端调用&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&#34;环境准备&#34;&gt;环境准备&lt;/h2&gt;
@@ -42,22 +78,22 @@
 
 &lt;h3 id=&#34;安装zeroc-ice&#34;&gt;安装Zeroc Ice&lt;/h3&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp; 如果系统中没有安装Zeroc ICE，并且ubuntu的软件源中也没有zeroc ice，可以按照下面的步骤安装。
-&amp;gt; sudo apt-key adv &amp;ndash;keyserver keyserver.ubuntu.com &amp;ndash;recv 5E6DA83306132997
-&amp;gt; sudo apt-add-repository &amp;ldquo;deb &lt;a href=&#34;http://zeroc.com/download/apt/ubuntu$(lsb_release&#34;&gt;http://zeroc.com/download/apt/ubuntu$(lsb_release&lt;/a&gt; -rs) stable main&amp;rdquo;
-&amp;gt; sudo apt-get update
+&lt;p&gt;&amp;emsp;&amp;emsp; 如果系统中没有安装Zeroc ICE，并且ubuntu的软件源中也没有zeroc ice，可以按照下面的步骤安装。&lt;br /&gt;
+&amp;gt; sudo apt-key adv &amp;ndash;keyserver keyserver.ubuntu.com &amp;ndash;recv 5E6DA83306132997&lt;br /&gt;
+&amp;gt; sudo apt-add-repository &amp;ldquo;deb &lt;a href=&#34;http://zeroc.com/download/apt/ubuntu$(lsb_release&#34;&gt;http://zeroc.com/download/apt/ubuntu$(lsb_release&lt;/a&gt; -rs) stable main&amp;rdquo;&lt;br /&gt;
+&amp;gt; sudo apt-get update&lt;br /&gt;
 &amp;gt; sudo apt-get install zeroc-ice-all-runtime zeroc-ice-all-dev&lt;/p&gt;
 
 &lt;p&gt;&amp;emsp;&amp;emsp;安装之后系统中就有了slice2cpp、slice2java等Sliece（Zeroc ICE定义的接口描述语言，IDL）文件到相应语言的转换程序，以及icegrid、iceregistry、icegridadmin等程序。如果缺少目标语言的工具（例如slice2py）或开发包，还需要特别安装。&lt;/p&gt;
 
 &lt;h3 id=&#34;安装zeroc-ice的python开发包&#34;&gt;安装Zeroc ICE的python开发包&lt;/h3&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;当然在这一步之前应当首先安装python和pip（python的依赖管理工具），此处略。Zeroc ICE的python开发包（或者模块）叫zeroc-ice，可以使用pip安装。
+&lt;p&gt;&amp;emsp;&amp;emsp;当然在这一步之前应当首先安装python和pip（python的依赖管理工具），此处略。Zeroc ICE的python开发包（或者模块）叫zeroc-ice，可以使用pip安装。&lt;br /&gt;
 &amp;gt; sudo -H pip install zeroc-ice&lt;/p&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;安装过程中可能出现缺少某些C/C++头文件的问题，例如缺少python.h、openssl/ssl.h、bzlib.h，这些都是因为没有安装相应的开发包。可以通过如下的命令解决：
-&amp;gt; sudo apt-get install python-dev
-&amp;gt; sudo apt-get install libssl-dev
+&lt;p&gt;&amp;emsp;&amp;emsp;安装过程中可能出现缺少某些C/C++头文件的问题，例如缺少python.h、openssl/ssl.h、bzlib.h，这些都是因为没有安装相应的开发包。可以通过如下的命令解决：&lt;br /&gt;
+&amp;gt; sudo apt-get install python-dev&lt;br /&gt;
+&amp;gt; sudo apt-get install libssl-dev&lt;br /&gt;
 &amp;gt; sudo apt-get install libbz2-dev&lt;/p&gt;
 
 &lt;h2 id=&#34;开发server和client&#34;&gt;开发Server和Client&lt;/h2&gt;
@@ -65,10 +101,11 @@
 &lt;p&gt;&amp;emsp;&amp;emsp;下面即是真正的服务端和客户端开发。开发过程通常是:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;使用Slice语言定义语言无关的接口文件&lt;/li&gt;
-&lt;li&gt;转换成指定语言的接口文件&lt;/li&gt;
-&lt;li&gt;根据接口文件开发服务端和客户端程序&lt;/li&gt;
-&lt;li&gt;书写服务端和客户端的配置文件&lt;/li&gt;
+&lt;li&gt;使用Slice语言定义语言无关的接口文件&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;转换成指定语言的接口文件&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;根据接口文件开发服务端和客户端程序&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;书写服务端和客户端的配置文件&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&#34;使用slice语言定义接口&#34;&gt;使用slice语言定义接口&lt;/h3&gt;
@@ -83,10 +120,10 @@ module Demo {
 
 &lt;h3 id=&#34;生成指定语言的接口文件&#34;&gt;生成指定语言的接口文件&lt;/h3&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;本次开发采用的语言是python，所以使用
+&lt;p&gt;&amp;emsp;&amp;emsp;本次开发采用的语言是python，所以使用&lt;br /&gt;
 &amp;gt; slice2py Printer.ice&lt;/p&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;其他语言可以依此类推，例如slice2java，slice2cpp。
+&lt;p&gt;&amp;emsp;&amp;emsp;其他语言可以依此类推，例如slice2java，slice2cpp。&lt;br /&gt;
 &amp;emsp;&amp;emsp;命令执行成功，可以看到在目标目录中生成了一个Printer_ice.py文件，以及一个Demo目录。Demo是slice接口文件中定义的module名称。&lt;/p&gt;
 
 &lt;h3 id=&#34;编写服务器&#34;&gt;编写服务器&lt;/h3&gt;
@@ -183,18 +220,18 @@ sys.exit(status)
 
 &lt;h3 id=&#34;客户端直连服务端&#34;&gt;客户端直连服务端&lt;/h3&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;上述程序开发完毕之后不用部署到icegrid就可以直接运行，配置文件是用来在icegrid上定位和连接服务。此时可以一边运行服务端，一边运行客户端，检验一下它们的功能。
+&lt;p&gt;&amp;emsp;&amp;emsp;上述程序开发完毕之后不用部署到icegrid就可以直接运行，配置文件是用来在icegrid上定位和连接服务。此时可以一边运行服务端，一边运行客户端，检验一下它们的功能。&lt;br /&gt;
 &amp;gt; python Server.py&lt;/p&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;运行之后可以看到进程并没有结束，一直在等待连接。然后另起一个终端，运行客户端程序。
+&lt;p&gt;&amp;emsp;&amp;emsp;运行之后可以看到进程并没有结束，一直在等待连接。然后另起一个终端，运行客户端程序。&lt;br /&gt;
 &amp;gt; python Client.py&lt;/p&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;运行之后可以看到服务端和客户端窗口的输出。
+&lt;p&gt;&amp;emsp;&amp;emsp;运行之后可以看到服务端和客户端窗口的输出。&lt;br /&gt;
 &lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/client_to_server.PNG&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;部署到icegrid&#34;&gt;部署到icegrid&lt;/h2&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;icegrid是Zeroc ICE的云计算解决方案。它可以将各种服务端部署在多台机器上，并为客户端调用提供服务定位、服务激活、负载均衡、故障转移等服务。客户端只要连接到指定的服务注册中心，就可以根据服务名称（这里是SimplePrinter），以及连接协议（Endpoints，这里是tcp）就可以找到相应的服务。服务在注册时也不必处在运行状态，可以由icegrid根据调用请求，自动启动。
+&lt;p&gt;&amp;emsp;&amp;emsp;icegrid是Zeroc ICE的云计算解决方案。它可以将各种服务端部署在多台机器上，并为客户端调用提供服务定位、服务激活、负载均衡、故障转移等服务。客户端只要连接到指定的服务注册中心，就可以根据服务名称（这里是SimplePrinter），以及连接协议（Endpoints，这里是tcp）就可以找到相应的服务。服务在注册时也不必处在运行状态，可以由icegrid根据调用请求，自动启动。&lt;br /&gt;
 &lt;img src=&#34;https://doc.zeroc.com/download/attachments/16716477/Simple_IceGrid_application.gif?version=1&amp;amp;modificationDate=1432840085000&amp;amp;api=v2&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;配置注册中心&#34;&gt;配置注册中心&lt;/h3&gt;
@@ -219,7 +256,7 @@ Ice.Admin.ServerId=Admin
 
 &lt;h3 id=&#34;配置节点&#34;&gt;配置节点&lt;/h3&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;节点是服务所在的机器。在实际生产环境中，服务注册中心也可以运行在其中某个节点上。
+&lt;p&gt;&amp;emsp;&amp;emsp;节点是服务所在的机器。在实际生产环境中，服务注册中心也可以运行在其中某个节点上。&lt;br /&gt;
 node1.cfg（服务所在节点的配置文件）&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;# 注册中心地址  
@@ -237,7 +274,7 @@ IceGrid.Node.CollocateRegistry=0
 
 &lt;h3 id=&#34;应用描述文件&#34;&gt;应用描述文件&lt;/h3&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;应用描述文件用来描述服务端程序在icegrid中的部署情况。包括应用的名称、服务程序的路径、执行参数等等。
+&lt;p&gt;&amp;emsp;&amp;emsp;应用描述文件用来描述服务端程序在icegrid中的部署情况。包括应用的名称、服务程序的路径、执行参数等等。&lt;br /&gt;
 app.xml&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;icegrid&amp;gt;
@@ -266,33 +303,33 @@ app.xml&lt;/p&gt;
 &lt;h3 id=&#34;启动icegrid&#34;&gt;启动icegrid&lt;/h3&gt;
 
 &lt;ol&gt;
-&lt;li&gt;启动icegrid注册中心
-icegridregistry &amp;ndash;Ice.Config=registry.cfg
-&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_registry.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
-&lt;li&gt;启动某个节点
-icegridnode &amp;ndash;Ice.Config=node1.cfg
-&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_node.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
-&lt;li&gt;启动节点上的应用管理程序, 并添加应用
-icegridadmin &amp;ndash;Ice.Config=node1.cfg
-application add app.xml
-&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_admin_node.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
-&lt;li&gt;查看已经添加的应用
-application describe PrinterApplication
-&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_describe_application.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
-&lt;li&gt;启动各节点上的应用服务
-icegridgui
-&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/connect_grid.PNG&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_server.PNG&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;启动icegrid注册中心&lt;br /&gt;
+icegridregistry &amp;ndash;Ice.Config=registry.cfg&lt;br /&gt;
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_registry.PNG&#34; alt=&#34;&#34; /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;启动某个节点&lt;br /&gt;
+icegridnode &amp;ndash;Ice.Config=node1.cfg&lt;br /&gt;
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_node.PNG&#34; alt=&#34;&#34; /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;启动节点上的应用管理程序, 并添加应用&lt;br /&gt;
+icegridadmin &amp;ndash;Ice.Config=node1.cfg&lt;br /&gt;
+application add app.xml&lt;br /&gt;
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_admin_node.PNG&#34; alt=&#34;&#34; /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;查看已经添加的应用&lt;br /&gt;
+application describe PrinterApplication&lt;br /&gt;
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_describe_application.PNG&#34; alt=&#34;&#34; /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;启动各节点上的应用服务&lt;br /&gt;
+icegridgui&lt;br /&gt;
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/connect_grid.PNG&#34; alt=&#34;&#34; /&gt;&lt;br /&gt;
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_start_server.PNG&#34; alt=&#34;&#34; /&gt;&lt;br /&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;运行客户端程序
-python Client.py
-&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_ClientRun_Server_Response.PNG&#34; alt=&#34;&#34; /&gt;
+&lt;li&gt;&lt;p&gt;运行客户端程序&lt;br /&gt;
+python Client.py&lt;br /&gt;
+&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/icegrid/grid_ClientRun_Server_Response.PNG&#34; alt=&#34;&#34; /&gt;&lt;br /&gt;
 ```&lt;/p&gt;
 
 &lt;h2 id=&#34;实验总结&#34;&gt;实验总结&lt;/h2&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;此次实验实现了在icegrid上部署服务程序，客户端通过icegrid的服务注册中心调用该服务。实验中服务端和客户端使用的都是Python，有兴趣的同学也可以分别使用不同的语言开发服务端和客户端，尝试一下Zeroc ICE的跨语言RPC调用。
+&lt;p&gt;&amp;emsp;&amp;emsp;此次实验实现了在icegrid上部署服务程序，客户端通过icegrid的服务注册中心调用该服务。实验中服务端和客户端使用的都是Python，有兴趣的同学也可以分别使用不同的语言开发服务端和客户端，尝试一下Zeroc ICE的跨语言RPC调用。&lt;br /&gt;
 &amp;emsp;&amp;emsp;本次实验就到这里，有关Zeroc ICE的其他内容请关注后续的课程。&lt;/p&gt;
 
 &lt;h2 id=&#34;版权声明&#34;&gt;版权声明&lt;/h2&gt;
@@ -319,23 +356,25 @@ python Client.py
 
 &lt;h2 id=&#34;架构模型&#34;&gt;架构模型&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/MQvsRPC/RPC.PNG&#34; alt=&#34;RPC&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/MQvsRPC/RPC.PNG&#34; alt=&#34;RPC&#34; /&gt;&lt;br /&gt;
 RPC的特点是：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;客户端&lt;strong&gt;&lt;em&gt;同步&lt;/em&gt;&lt;/strong&gt;调用服务器上的方法、过程&lt;/li&gt;
-&lt;li&gt;客户端的请求只能由&lt;strong&gt;&lt;em&gt;一个&lt;/em&gt;&lt;/strong&gt;服务器处理，虽然请求可以分发到不同的服务器，但一次只能由一个服务器处理&lt;/li&gt;
-&lt;li&gt;架构简单、明晰&lt;/li&gt;
+&lt;li&gt;客户端&lt;strong&gt;&lt;em&gt;同步&lt;/em&gt;&lt;/strong&gt;调用服务器上的方法、过程&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;客户端的请求只能由&lt;strong&gt;&lt;em&gt;一个&lt;/em&gt;&lt;/strong&gt;服务器处理，虽然请求可以分发到不同的服务器，但一次只能由一个服务器处理&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;架构简单、明晰&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/MQvsRPC/MQ.PNG&#34; alt=&#34;MQ&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;http://ohpg9orwb.bkt.clouddn.com/blogs/MQvsRPC/MQ.PNG&#34; alt=&#34;MQ&#34; /&gt;&lt;br /&gt;
 MQ的特点是:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;消息的发送者和消费者解耦，即消息的产生和处理是异步的&lt;/li&gt;
-&lt;li&gt;一条消息的消费者可以有多个&lt;/li&gt;
-&lt;li&gt;消息可以保存在MQ系统中，消费者可以重新消费&lt;/li&gt;
-&lt;li&gt;架构比RPC稍显复杂&lt;/li&gt;
+&lt;li&gt;消息的发送者和消费者解耦，即消息的产生和处理是异步的&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;一条消息的消费者可以有多个&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;消息可以保存在MQ系统中，消费者可以重新消费&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;架构比RPC稍显复杂&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&#34;适用场景&#34;&gt;适用场景&lt;/h2&gt;
@@ -347,7 +386,7 @@ MQ的特点是:&lt;/p&gt;
 - 架构简单
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;在一个由多个微服务构成的大系统中，某些&lt;strong&gt;&lt;em&gt;关键&lt;/em&gt;&lt;/strong&gt;服务间的调用应当在较短的时间内返回，而且各个微服务的专业化程度较高，同一个请求的关注者只有一个。这个时候就应该用RPC。
+&lt;p&gt;&amp;emsp;&amp;emsp;在一个由多个微服务构成的大系统中，某些&lt;strong&gt;&lt;em&gt;关键&lt;/em&gt;&lt;/strong&gt;服务间的调用应当在较短的时间内返回，而且各个微服务的专业化程度较高，同一个请求的关注者只有一个。这个时候就应该用RPC。&lt;br /&gt;
 &amp;emsp;&amp;emsp;比如在一个ERP系统中，有一个管理仓储的微服务，以及一个负责订单的微服务。新建订单时需要查知当前的存货是否充足，如果不充足就通知用户；提交订单时预订指定数量的货物，如果此时货物不错，也要终止订单的提交，并通知用户。显然在这种场景下是不允许较大的延迟，否则会影响用户体验。所以应该使用RPC，及时返回仓储情况。&lt;/p&gt;
 
 &lt;h3 id=&#34;mq比较适合&#34;&gt;MQ比较适合&lt;/h3&gt;
@@ -361,7 +400,7 @@ MQ的特点是:&lt;/p&gt;
 - 消息的关注者不止一个
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;在一个由多个微服务构成的大系统中，会有一些非关键服务，用来执行一些不需要立刻得到结果的计算。而且它们的计算结果并不会返回给消息的发送者。这个时候就应该使用MQ。
+&lt;p&gt;&amp;emsp;&amp;emsp;在一个由多个微服务构成的大系统中，会有一些非关键服务，用来执行一些不需要立刻得到结果的计算。而且它们的计算结果并不会返回给消息的发送者。这个时候就应该使用MQ。&lt;br /&gt;
 &amp;emsp;&amp;emsp;比如在一个ERP系统中有一些日志服务、业务监控服务等。这些服务会发布一些系统事件，针对这些事件可能有多个应用关注。对于日志服务，当系统出现某些异常情况时需要浏览日志，查找问题的根源；也可以在分析系统运行的瓶颈时提供关键数据。对于业务监控系统，例如货物入仓出仓的消息，可以被报表系统关注，生成报表；也可以被配货系统关注，及时补足所需库存。&lt;/p&gt;
 </description>
     </item>

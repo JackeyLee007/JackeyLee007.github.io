@@ -149,6 +149,43 @@
 
 
   <div class="article">
+    <div class="title"><a href="https://jackeylee007.github.io/2016/12/15/kafka_leader_election/">Kafka是如何选择Leader的</a></div>
+    
+      <div class="categories">
+        
+          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
+        
+          <a href="https://jackeylee007.github.io//categories/mq/">MQ</a>
+        
+      </div>
+     
+    <div class="description">Kafka是如何选择Leader的 Kafka的Leader是什么 &emsp;&emsp;首先Kafka会将接收到的消息分区（partition），每个主题（topic）的消息有不同的分区。这样一方面消息的存储就不会受到单一服务器存储空间大小的限制，另一方面消息的处理也可以在多个服务器上并行。
+&emsp;&emsp;其次为了保证高可用，每个分区都会有一定数量的副本（replica）。这样如果有部分服务器不可用，副本所在的服务器就会接替上来，保证应用的持续性。
+&emsp;&emsp;但是，为了保证较高的处理效率，消息的读写都是在固定的一个副本上完成。这个副本就是所谓的Leader，而其他副本则是Follower。而Follower则会定期地到Leader上同步数据。
+Leader选举 &emsp;&emsp;如果某个分区所在的服务器除了问题，不可用，kafka会从该分区的其他的副本中选择一个作为新的Leader。之后所有的读写就会转移到这个新的Leader上。现在的问题是应当选择哪个作为新的Leader。显然，只有那些跟Leader保持同步的Follower才应该被选作新的Leader。
+&emsp;&emsp;Kafka会在Zookeeper上针对每个Topic维护一个称为ISR（in-sync replica，已同步的副本）的集合，该集合中是一些分区的副本。只有当这些副本都跟Leader中的副本同步了之后，kafka才会认为消息已提交，并反馈给消息的生产者。如果这个集合有增减，kafka会更新zookeeper上的记录。
+&emsp;&emsp;如果某个分区的Leader不可用，Kafka就会从ISR集合中选择一个副本作为新的Leader。
+&emsp;&emsp;显然通过ISR，kafka需要的冗余度较低，可以容忍的失败数比较高。假设某个topic有f+1个副本，kafka可以容忍f个服务器不可用。
+为什么不用少数服从多数的方法 &emsp;&emsp;少数服从多数是一种比较常见的一致性算法和Leader选举法。它的含义是只有超过半数的副本同步了，系统才会认为数据已同步；选择Leader时也是从超过半数的同步的副本中选择。这种算法需要较高的冗余度。譬如只允许一台机器失败，需要有三个副本；而如果只容忍两台机器失败，则需要五个副本。而kafka的ISR集合方法，分别只需要两个和三个副本。
+如果所有的ISR副本都失败了怎么办 &emsp;&emsp;此时有两种方法可选，一种是等待ISR集合中的副本复活，一种是选择任何一个立即可用的副本，而这个副本不一定是在ISR集合中。这两种方法各有利弊，实际生产中按需选择。
+&emsp;&emsp;如果要等待ISR副本复活，虽然可以保证一致性，但可能需要很长时间。而如果选择立即可用的副本，则很可能该副本并不一致。</div>
+    <div class="tags">
+      15 Dec 2016
+      
+        
+          <a href="https://jackeylee007.github.io//tags/kafka/">#kafka</a>
+        
+          <a href="https://jackeylee007.github.io//tags/algorithm/">#algorithm</a>
+        
+          <a href="https://jackeylee007.github.io//tags/leader/">#Leader</a>
+        
+          <a href="https://jackeylee007.github.io//tags/partition/">#partition</a>
+        
+       
+    </div>
+  </div>
+
+  <div class="article">
     <div class="title"><a href="https://jackeylee007.github.io/2016/12/10/zerocice/">用Python开发Zeroc Ice应用</a></div>
     
       <div class="categories">
@@ -159,12 +196,20 @@
         
       </div>
      
-    <div class="description">用Python开发Zeroc Ice应用 Zeroc Ice简介 &emsp;&emsp;Zeroc ICE（Internet Communications Engine ，互联网通信引擎）是目前功能比较强大和完善的RPC框架，支持跨平台、跨语言调用。它非常灵活，可以通过TCP、UDP、SSL/TSL或WebSocket连接，支持同步、异步调用，以及服务器和客户端之间的双向连接。Zeroc ICE的效率非常高，它使用一种高效的二进制协议，对带宽的消耗比较小。甚至对于通过卫星的RPC调用，Zeroc ICE还可以对数据流进一步压缩。另外Zeroc ICE还可以在不解包的情况下转发调用请求，省去普通转发时的解包、重新压包的时间。 &emsp;&emsp;Zeroc ICE的应用还可以部署在icegrid上，实现网格计算，即客户端调用时不必指定目标主机，由ICE负责查找；服务端也可以在调用时才开启，动态加载；同样的服务也可以部署多个，实现高可用。
+    <div class="description">用Python开发Zeroc Ice应用 Zeroc Ice简介 &emsp;&emsp;Zeroc ICE（Internet Communications Engine ，互联网通信引擎）是目前功能比较强大和完善的RPC框架，支持跨平台、跨语言调用。它非常灵活，可以通过TCP、UDP、SSL/TSL或WebSocket连接，支持同步、异步调用，以及服务器和客户端之间的双向连接。Zeroc ICE的效率非常高，它使用一种高效的二进制协议，对带宽的消耗比较小。甚至对于通过卫星的RPC调用，Zeroc ICE还可以对数据流进一步压缩。另外Zeroc ICE还可以在不解包的情况下转发调用请求，省去普通转发时的解包、重新压包的时间。
+&emsp;&emsp;Zeroc ICE的应用还可以部署在icegrid上，实现网格计算，即客户端调用时不必指定目标主机，由ICE负责查找；服务端也可以在调用时才开启，动态加载；同样的服务也可以部署多个，实现高可用。
 实验简介 &emsp;&emsp;Zeroc ICE支持跨语言RPC调用，包括C++、C#、Java、JavaScript、Python、Objective-C、Ruby、PHP、VB等。本次实验采用Python（Pyhon 2.7以上，或者Python 3都可以）。实验的内容是在icegrid上部署一个简单的服务器，当客户端调用时输出指定内容，并返回一个字符串。实验步骤如下：
- 安装Zeroc ICE 开发服务端和客户端程序 部署到icegrid 客户端调用  环境准备 &emsp;&emsp; 本次实验采用的操作系统是Ubuntu 14.04。如果使用其他操作系统，可以根据Zeroc ICE的文档相应调整。
-安装Zeroc Ice &emsp;&emsp; 如果系统中没有安装Zeroc ICE，并且ubuntu的软件源中也没有zeroc ice，可以按照下面的步骤安装。 &gt; sudo apt-key adv &ndash;keyserver keyserver.ubuntu.com &ndash;recv 5E6DA83306132997 &gt; sudo apt-add-repository &ldquo;deb http://zeroc.com/download/apt/ubuntu$(lsb_release -rs) stable main&rdquo; &gt; sudo apt-get update &gt; sudo apt-get install zeroc-ice-all-runtime zeroc-ice-all-dev
-&emsp;&emsp;安装之后系统中就有了slice2cpp、slice2java等Sliece（Zeroc ICE定义的接口描述语言，IDL）文件到相应语言的转换程序，以及icegrid、iceregistry、icegridadmin等程序。如果缺少目标语言的工具（例如slice2py）或开发包，还需要特别安装。
-安装Zeroc ICE的python开发包 &emsp;&emsp;当然在这一步之前应当首先安装python和pip（python的依赖管理工具），此处略。Zeroc ICE的python开发包（或者模块）叫zeroc-ice，可以使用pip安装。 &gt; sudo -H pip install zeroc-ice</div>
+ 安装Zeroc ICE
+ 开发服务端和客户端程序
+ 部署到icegrid
+ 客户端调用
+  环境准备 &emsp;&emsp; 本次实验采用的操作系统是Ubuntu 14.04。如果使用其他操作系统，可以根据Zeroc ICE的文档相应调整。
+安装Zeroc Ice &emsp;&emsp; 如果系统中没有安装Zeroc ICE，并且ubuntu的软件源中也没有zeroc ice，可以按照下面的步骤安装。
+&gt; sudo apt-key adv &ndash;keyserver keyserver.ubuntu.com &ndash;recv 5E6DA83306132997
+&gt; sudo apt-add-repository &ldquo;deb http://zeroc.com/download/apt/ubuntu$(lsb_release -rs) stable main&rdquo;
+&gt; sudo apt-get update
+&gt; sudo apt-get install zeroc-ice-all-runtime zeroc-ice-all-dev
+&emsp;&emsp;安装之后系统中就有了slice2cpp、slice2java等Sliece（Zeroc ICE定义的接口描述语言，IDL）文件到相应语言的转换程序，以及icegrid、iceregistry、icegridadmin等程序。如果缺少目标语言的工具（例如slice2py）或开发包，还需要特别安装。</div>
     <div class="tags">
       10 Dec 2016
       
@@ -189,9 +234,18 @@
     <div class="description">MQ vs RPC &emsp;&emsp;消息队列和远程调用
 [TOC]
 架构模型 RPC的特点是：
- 客户端同步调用服务器上的方法、过程 客户端的请求只能由一个服务器处理，虽然请求可以分发到不同的服务器，但一次只能由一个服务器处理 架构简单、明晰  MQ的特点是:
- 消息的发送者和消费者解耦，即消息的产生和处理是异步的 一条消息的消费者可以有多个 消息可以保存在MQ系统中，消费者可以重新消费 架构比RPC稍显复杂  适用场景 RPC比较适合 - 客户端调用哪个服务器比较明确 - 调用需要立即得到返回结果 - 架构简单  &emsp;&emsp;在一个由多个微服务构成的大系统中，某些关键服务间的调用应当在较短的时间内返回，而且各个微服务的专业化程度较高，同一个请求的关注者只有一个。这个时候就应该用RPC。 &emsp;&emsp;比如在一个ERP系统中，有一个管理仓储的微服务，以及一个负责订单的微服务。新建订单时需要查知当前的存货是否充足，如果不充足就通知用户；提交订单时预订指定数量的货物，如果此时货物不错，也要终止订单的提交，并通知用户。显然在这种场景下是不允许较大的延迟，否则会影响用户体验。所以应该使用RPC，及时返回仓储情况。
-MQ比较适合 - 消息的发送者和消费者需要解耦的情况 - 发送者并不明确谁是消费者 - 发送者并不关心谁来消费消息 - 各个消费者可以从不同的角度入手处理消息 - 消费者的处理结果也不返回给发送者 - 消息的发送和处理是异步的 - 消息的关注者不止一个  &emsp;&emsp;在一个由多个微服务构成的大系统中，会有一些非关键服务，用来执行一些不需要立刻得到结果的计算。而且它们的计算结果并不会返回给消息的发送者。这个时候就应该使用MQ。 &emsp;&emsp;比如在一个ERP系统中有一些日志服务、业务监控服务等。这些服务会发布一些系统事件，针对这些事件可能有多个应用关注。对于日志服务，当系统出现某些异常情况时需要浏览日志，查找问题的根源；也可以在分析系统运行的瓶颈时提供关键数据。对于业务监控系统，例如货物入仓出仓的消息，可以被报表系统关注，生成报表；也可以被配货系统关注，及时补足所需库存。</div>
+ 客户端同步调用服务器上的方法、过程
+ 客户端的请求只能由一个服务器处理，虽然请求可以分发到不同的服务器，但一次只能由一个服务器处理
+ 架构简单、明晰
+  MQ的特点是:
+ 消息的发送者和消费者解耦，即消息的产生和处理是异步的
+ 一条消息的消费者可以有多个
+ 消息可以保存在MQ系统中，消费者可以重新消费
+ 架构比RPC稍显复杂
+  适用场景 RPC比较适合 - 客户端调用哪个服务器比较明确 - 调用需要立即得到返回结果 - 架构简单  &emsp;&emsp;在一个由多个微服务构成的大系统中，某些关键服务间的调用应当在较短的时间内返回，而且各个微服务的专业化程度较高，同一个请求的关注者只有一个。这个时候就应该用RPC。
+&emsp;&emsp;比如在一个ERP系统中，有一个管理仓储的微服务，以及一个负责订单的微服务。新建订单时需要查知当前的存货是否充足，如果不充足就通知用户；提交订单时预订指定数量的货物，如果此时货物不错，也要终止订单的提交，并通知用户。显然在这种场景下是不允许较大的延迟，否则会影响用户体验。所以应该使用RPC，及时返回仓储情况。
+MQ比较适合 - 消息的发送者和消费者需要解耦的情况 - 发送者并不明确谁是消费者 - 发送者并不关心谁来消费消息 - 各个消费者可以从不同的角度入手处理消息 - 消费者的处理结果也不返回给发送者 - 消息的发送和处理是异步的 - 消息的关注者不止一个  &emsp;&emsp;在一个由多个微服务构成的大系统中，会有一些非关键服务，用来执行一些不需要立刻得到结果的计算。而且它们的计算结果并不会返回给消息的发送者。这个时候就应该使用MQ。
+&emsp;&emsp;比如在一个ERP系统中有一些日志服务、业务监控服务等。这些服务会发布一些系统事件，针对这些事件可能有多个应用关注。对于日志服务，当系统出现某些异常情况时需要浏览日志，查找问题的根源；也可以在分析系统运行的瓶颈时提供关键数据。对于业务监控系统，例如货物入仓出仓的消息，可以被报表系统关注，生成报表；也可以被配货系统关注，及时补足所需库存。</div>
     <div class="tags">
       5 Dec 2016
       
