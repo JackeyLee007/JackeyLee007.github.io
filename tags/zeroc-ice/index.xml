@@ -76,9 +76,9 @@
 
 &lt;pre&gt;&lt;code&gt;// Printer.ice
 module Demo {
-	interface Printer {
-	     string printString(string s);
-	};
+    interface Printer {
+         string printString(string s);
+    };
 };
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -105,14 +105,14 @@ status = 0
 ic = None
 
 try:
-	# 初始化zeroc ice环境
+    # 初始化zeroc ice环境
     ic = Ice.initialize(sys.argv)
     # 生成名为SimplePrinterAdapter的对象适配器，连接方式是缺省的tcp，监听端口10000
     adapter = ic.createObjectAdapterWithEndpoints(&amp;quot;SimplePrinterAdapter&amp;quot;, &amp;quot;default -p 10000&amp;quot;)
-	# 生成接口的实现对象，并以指定的名字SimplePrinter添加到对象适配器中
+    # 生成接口的实现对象，并以指定的名字SimplePrinter添加到对象适配器中
     object = PrinterI()
     adapter.add(object, ic.stringToIdentity(&amp;quot;SimplePrinter&amp;quot;))
-	# 激活对象适配器
+    # 激活对象适配器
     adapter.activate()
     # 使得本服务器的调用线程在此暂停，直至ice服务结束，或者进程结束
     ic.waitForShutdown()
@@ -155,7 +155,7 @@ try:
     printer = Demo.PrinterPrx.checkedCast(base)
     if not printer:
         raise RuntimeError(&amp;quot;Invalid proxy&amp;quot;)
-	# 调用服务器的printString方法，并输出返回结果
+    # 调用服务器的printString方法，并输出返回结果
     rs = printer.printString(&amp;quot;Hello World, I&#39;m talking to you through RPC&amp;quot;)
     print(rs)
 
@@ -298,7 +298,8 @@ python Client.py&lt;br /&gt;
 
 &lt;h2 id=&#34;版权声明&#34;&gt;版权声明&lt;/h2&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;此课程内容由作者RocWay提供并授权使用，实验楼基于原著进行了内容和章节的优化，修正了一些错误。版权归原作者所有。未经允许，不得以任何形式进行传播和发布&lt;/p&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;此课程内容由作者RocWay提供并授权使用，实验楼基于原著进行了内容和章节的优化，修正了一些错误。版权归原作者所有。未经允许，不得以任何形式进行传播和发布&lt;br /&gt;
+{{ template &amp;ldquo;_internal/disqus.html&amp;rdquo; . }}&lt;/p&gt;
 </description>
     </item>
     
