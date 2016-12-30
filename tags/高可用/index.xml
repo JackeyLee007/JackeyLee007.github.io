@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RocWay的博客</title>
+    <link>https://JackeyLee007.github.io/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/index.xml</link>
+    <description>Recent content on RocWay的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-zh</language>
+    <copyright>© 2017 Copyright Text</copyright>
+    <atom:link href="https://JackeyLee007.github.io/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>HAProxy为何选择单进程</title>
+      <link>https://jackeylee007.github.io/2016/12/23/haproxy_single_process/</link>
+      <pubDate>Fri, 23 Dec 2016 12:19:10 +0800</pubDate>
+      
+      <guid>https://jackeylee007.github.io/2016/12/23/haproxy_single_process/</guid>
+      <description>&lt;p&gt;首先澄清一下：HAProxy支持多进程，需要运行在daemon模式下，并设置global区的nbproc参数。缺省情况下，HAProxy只会启动一个进程。&lt;/p&gt;
+
+&lt;p&gt;  尽管多进程可以提高CPU的利用率，但是仍然有一些限制需要考虑：&lt;br /&gt;
+每个HAProxy进程都会对服务器执行健康检查，因此进程越多，服务器收到的打扰就越多。&lt;br /&gt;
+最大连接数和最大队列数的设置是针对每个进程的，因此设置的时候要注意不要超过服务器的限制&lt;br /&gt;
+外向连接应当避免使用端口范围，否则会引起冲突&lt;br /&gt;
+每个进程都有一个定向表（stick-tables，即用户到服务器的映射关系），进程间并不共享&lt;br /&gt;
+在每一时刻，每一个Peer组可能只能跑一个进程&lt;br /&gt;
+HAProxy的CLI（命令行接口）操作只能作用于一个进程&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

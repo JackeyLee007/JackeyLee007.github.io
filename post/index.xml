@@ -7,8 +7,114 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-zh</language>
     <copyright>© 2017 Copyright Text</copyright>
-    <lastBuildDate>Thu, 15 Dec 2016 11:22:27 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 30 Dec 2016 16:13:50 +0800</lastBuildDate>
     <atom:link href="https://JackeyLee007.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Corosync vs Heartbeat</title>
+      <link>https://jackeylee007.github.io/2016/12/30/corosync_vs_heartbeat/</link>
+      <pubDate>Fri, 30 Dec 2016 16:13:50 +0800</pubDate>
+      
+      <guid>https://jackeylee007.github.io/2016/12/30/corosync_vs_heartbeat/</guid>
+      <description>
+
+&lt;h2 id=&#34;corosync&#34;&gt;Corosync&lt;/h2&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;Corosync是一个带有高可用功能的组间通信系统，用C语言实现，有四个主要功能：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;一个封闭的进程组间通信模型，可以保证分布式状态机间的同步&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;一个简单的可用性管理器，用于重启失败的应用程序&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;一个基于内存的配置、统计数据库，可以读写数据、感知信息的变化&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;一个资源配额管理系统，当应用使用的资源已达到其配额，或配额被削减，可以通知应用&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;Corosync常备用作Apache Qpid和Pacemaker的高可用框架。&lt;/p&gt;
+
+&lt;h2 id=&#34;heartbeat&#34;&gt;Heartbeat&lt;/h2&gt;
+
+&lt;p&gt;&amp;emsp;&amp;emsp;Heartbeat是一个后台进程，可以为其客户端提供集群环境（通信和成员关系）。让处于不同机器的客户端知道彼此的存在（或是下线），以及交换数据。&lt;br /&gt;
+&amp;emsp;&amp;emsp;Heartbeat应该与CRM（集群资源管理）系统结合在一起使用，后者可以起停集群中的各种资源，如IP地址、web服务等等，以保证系统的高可用。Pacemaker就是Heartbeat推荐的高可用框架。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>zookeeper最有价值的三个特征</title>
+      <link>https://jackeylee007.github.io/2016/12/30/zookeeper_valuable_feature/</link>
+      <pubDate>Fri, 30 Dec 2016 14:22:21 +0800</pubDate>
+      
+      <guid>https://jackeylee007.github.io/2016/12/30/zookeeper_valuable_feature/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;感知变化&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;临时节点&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;保持一致&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;客户端可以感知znode的变化，包括节点的创建、删除、值的修改、子节点的变化，这使得zookeeper可以作为集群的动态服务配置中心。&lt;/p&gt;
+
+&lt;p&gt;后台的服务可以将自己的连接信息创建为临时节点，这样在它下线时，节点也会随之删除。服务的使用方或调度者也就会知晓该服务已经不可用，要么换用其他服务，要么停止调用。这样做非常友好，也省去了对服务的检测。&lt;/p&gt;
+
+&lt;p&gt;zookeeper集群有一种single system image特性，即各客户端看到的集群状态是一致的，包括节点、数据等。因此各个客户端可以据此进行同步。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>kafka的消息传递语义</title>
+      <link>https://jackeylee007.github.io/2016/12/30/kafka_message_delivery_semantics/</link>
+      <pubDate>Fri, 30 Dec 2016 12:16:08 +0800</pubDate>
+      
+      <guid>https://jackeylee007.github.io/2016/12/30/kafka_message_delivery_semantics/</guid>
+      <description>
+
+&lt;h2 id=&#34;对于producer&#34;&gt;对于Producer&lt;/h2&gt;
+
+&lt;p&gt;对于Producer，Kafka从两个方面来保证消息的发送：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;设置消息发送失败后的重发次数，配置选项retries，范围是[0,&amp;hellip;,2147483647]，缺省值0&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;设置回执，配置选项 ack，范围是[-1, 0, 1]，缺省值1。-1表示所有的in-sync节点都已响应，0表示不必等待回执，1表示主节点（leader node）已响应。&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;因此，在broker始终有效的情况下，只要设置好重发次数，以及回执，就可以保证kafka已经接收到消息。&lt;/p&gt;
+
+&lt;p&gt;注意，这里只是保证kafka能接收到消息（at-least-once），但没有保证只接受一次（exactly-once）。exactly-once需要设置消息的主键，并保证消息发送的冪等性（即便kafka重启后也能保证）。但这对一个分布式系统来讲并不容易，期待kafka能在未来的版本中实现。&lt;/p&gt;
+
+&lt;h2 id=&#34;对于consumer&#34;&gt;对于Consumer&lt;/h2&gt;
+
+&lt;p&gt;Consumer在实现时需要考虑宕机的情形，即程序重启时能够从上次失败的地方接着处理，而关键就是能够获知已处理的消息的offset。此时有三种选择：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;先保存消息的处理结果，再存offset&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;先存offset，再保存消息的处理结果&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;将offset保存在消息的处理结果中&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;前面两种方法由于存在先后关系，因此可能存在不一致的情形。要么消息可能会多处理几次（at-least-once），要么可能会没有被处理（at-most-once）。&lt;br /&gt;
+第三种方法则可以保证消息只被处理一次，即exactly-once。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HAProxy为何选择单进程</title>
+      <link>https://jackeylee007.github.io/2016/12/23/haproxy_single_process/</link>
+      <pubDate>Fri, 23 Dec 2016 12:19:10 +0800</pubDate>
+      
+      <guid>https://jackeylee007.github.io/2016/12/23/haproxy_single_process/</guid>
+      <description>&lt;p&gt;首先澄清一下：HAProxy支持多进程，需要运行在daemon模式下，并设置global区的nbproc参数。缺省情况下，HAProxy只会启动一个进程。&lt;/p&gt;
+
+&lt;p&gt;  尽管多进程可以提高CPU的利用率，但是仍然有一些限制需要考虑：&lt;br /&gt;
+每个HAProxy进程都会对服务器执行健康检查，因此进程越多，服务器收到的打扰就越多。&lt;br /&gt;
+最大连接数和最大队列数的设置是针对每个进程的，因此设置的时候要注意不要超过服务器的限制&lt;br /&gt;
+外向连接应当避免使用端口范围，否则会引起冲突&lt;br /&gt;
+每个进程都有一个定向表（stick-tables，即用户到服务器的映射关系），进程间并不共享&lt;br /&gt;
+在每一时刻，每一个Peer组可能只能跑一个进程&lt;br /&gt;
+HAProxy的CLI（命令行接口）操作只能作用于一个进程&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Kafka是如何选择Leader的</title>

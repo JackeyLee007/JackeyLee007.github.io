@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RocWay的博客</title>
+    <link>https://JackeyLee007.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml</link>
+    <description>Recent content on RocWay的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-zh</language>
+    <copyright>© 2017 Copyright Text</copyright>
+    <atom:link href="https://JackeyLee007.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>kafka的消息传递语义</title>
+      <link>https://jackeylee007.github.io/2016/12/30/kafka_message_delivery_semantics/</link>
+      <pubDate>Fri, 30 Dec 2016 12:16:08 +0800</pubDate>
+      
+      <guid>https://jackeylee007.github.io/2016/12/30/kafka_message_delivery_semantics/</guid>
+      <description>
+
+&lt;h2 id=&#34;对于producer&#34;&gt;对于Producer&lt;/h2&gt;
+
+&lt;p&gt;对于Producer，Kafka从两个方面来保证消息的发送：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;设置消息发送失败后的重发次数，配置选项retries，范围是[0,&amp;hellip;,2147483647]，缺省值0&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;设置回执，配置选项 ack，范围是[-1, 0, 1]，缺省值1。-1表示所有的in-sync节点都已响应，0表示不必等待回执，1表示主节点（leader node）已响应。&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;因此，在broker始终有效的情况下，只要设置好重发次数，以及回执，就可以保证kafka已经接收到消息。&lt;/p&gt;
+
+&lt;p&gt;注意，这里只是保证kafka能接收到消息（at-least-once），但没有保证只接受一次（exactly-once）。exactly-once需要设置消息的主键，并保证消息发送的冪等性（即便kafka重启后也能保证）。但这对一个分布式系统来讲并不容易，期待kafka能在未来的版本中实现。&lt;/p&gt;
+
+&lt;h2 id=&#34;对于consumer&#34;&gt;对于Consumer&lt;/h2&gt;
+
+&lt;p&gt;Consumer在实现时需要考虑宕机的情形，即程序重启时能够从上次失败的地方接着处理，而关键就是能够获知已处理的消息的offset。此时有三种选择：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;先保存消息的处理结果，再存offset&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;先存offset，再保存消息的处理结果&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;将offset保存在消息的处理结果中&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;前面两种方法由于存在先后关系，因此可能存在不一致的情形。要么消息可能会多处理几次（at-least-once），要么可能会没有被处理（at-most-once）。&lt;br /&gt;
+第三种方法则可以保证消息只被处理一次，即exactly-once。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

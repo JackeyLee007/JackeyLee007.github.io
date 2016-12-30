@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-  <title>Mq</title>
+  <title>Haproxy</title>
   <script src="https://jackeylee007.github.io//bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="https://jackeylee007.github.io//bower_components/iron-icons/iron-icons.html">
   <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-drawer-panel/paper-drawer-panel.html">
@@ -149,39 +149,7 @@
 
 
   <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/30/kafka_message_delivery_semantics/">kafka的消息传递语义</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://jackeylee007.github.io//categories/%E6%8A%80%E6%9C%AF/">技术</a>
-        
-      </div>
-     
-    <div class="description">对于Producer 对于Producer，Kafka从两个方面来保证消息的发送：
- 设置消息发送失败后的重发次数，配置选项retries，范围是[0,&hellip;,2147483647]，缺省值0
- 设置回执，配置选项 ack，范围是[-1, 0, 1]，缺省值1。-1表示所有的in-sync节点都已响应，0表示不必等待回执，1表示主节点（leader node）已响应。
-  因此，在broker始终有效的情况下，只要设置好重发次数，以及回执，就可以保证kafka已经接收到消息。
-注意，这里只是保证kafka能接收到消息（at-least-once），但没有保证只接受一次（exactly-once）。exactly-once需要设置消息的主键，并保证消息发送的冪等性（即便kafka重启后也能保证）。但这对一个分布式系统来讲并不容易，期待kafka能在未来的版本中实现。
-对于Consumer Consumer在实现时需要考虑宕机的情形，即程序重启时能够从上次失败的地方接着处理，而关键就是能够获知已处理的消息的offset。此时有三种选择：
- 先保存消息的处理结果，再存offset
- 先存offset，再保存消息的处理结果
- 将offset保存在消息的处理结果中
-  前面两种方法由于存在先后关系，因此可能存在不一致的情形。要么消息可能会多处理几次（at-least-once），要么可能会没有被处理（at-most-once）。
-第三种方法则可以保证消息只被处理一次，即exactly-once。</div>
-    <div class="tags">
-      30 Dec 2016
-      
-        
-          <a href="https://jackeylee007.github.io//tags/mq/">#MQ</a>
-        
-          <a href="https://jackeylee007.github.io//tags/kafka/">#Kafka</a>
-        
-       
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/05/mqvsrpc/">MQ vs RPC</a></div>
+    <div class="title"><a href="https://jackeylee007.github.io/2016/12/23/haproxy_single_process/">HAProxy为何选择单进程</a></div>
     
       <div class="categories">
         
@@ -189,30 +157,21 @@
         
       </div>
      
-    <div class="description">MQ vs RPC &emsp;&emsp;消息队列和远程调用
-[TOC]
-架构模型 RPC的特点是：
- 客户端同步调用服务器上的方法、过程
- 客户端的请求只能由一个服务器处理，虽然请求可以分发到不同的服务器，但一次只能由一个服务器处理
- 架构简单、明晰
-  MQ的特点是:
- 消息的发送者和消费者解耦，即消息的产生和处理是异步的
- 一条消息的消费者可以有多个
- 消息可以保存在MQ系统中，消费者可以重新消费
- 架构比RPC稍显复杂
-  适用场景 RPC比较适合 - 客户端调用哪个服务器比较明确 - 调用需要立即得到返回结果 - 架构简单  &emsp;&emsp;在一个由多个微服务构成的大系统中，某些关键服务间的调用应当在较短的时间内返回，而且各个微服务的专业化程度较高，同一个请求的关注者只有一个。这个时候就应该用RPC。
-&emsp;&emsp;比如在一个ERP系统中，有一个管理仓储的微服务，以及一个负责订单的微服务。新建订单时需要查知当前的存货是否充足，如果不充足就通知用户；提交订单时预订指定数量的货物，如果此时货物不错，也要终止订单的提交，并通知用户。显然在这种场景下是不允许较大的延迟，否则会影响用户体验。所以应该使用RPC，及时返回仓储情况。
-MQ比较适合 - 消息的发送者和消费者需要解耦的情况 - 发送者并不明确谁是消费者 - 发送者并不关心谁来消费消息 - 各个消费者可以从不同的角度入手处理消息 - 消费者的处理结果也不返回给发送者 - 消息的发送和处理是异步的 - 消息的关注者不止一个  &emsp;&emsp;在一个由多个微服务构成的大系统中，会有一些非关键服务，用来执行一些不需要立刻得到结果的计算。而且它们的计算结果并不会返回给消息的发送者。这个时候就应该使用MQ。
-&emsp;&emsp;比如在一个ERP系统中有一些日志服务、业务监控服务等。这些服务会发布一些系统事件，针对这些事件可能有多个应用关注。对于日志服务，当系统出现某些异常情况时需要浏览日志，查找问题的根源；也可以在分析系统运行的瓶颈时提供关键数据。对于业务监控系统，例如货物入仓出仓的消息，可以被报表系统关注，生成报表；也可以被配货系统关注，及时补足所需库存。</div>
+    <div class="description">首先澄清一下：HAProxy支持多进程，需要运行在daemon模式下，并设置global区的nbproc参数。缺省情况下，HAProxy只会启动一个进程。
+ 尽管多进程可以提高CPU的利用率，但是仍然有一些限制需要考虑：
+每个HAProxy进程都会对服务器执行健康检查，因此进程越多，服务器收到的打扰就越多。
+最大连接数和最大队列数的设置是针对每个进程的，因此设置的时候要注意不要超过服务器的限制
+外向连接应当避免使用端口范围，否则会引起冲突
+每个进程都有一个定向表（stick-tables，即用户到服务器的映射关系），进程间并不共享
+在每一时刻，每一个Peer组可能只能跑一个进程
+HAProxy的CLI（命令行接口）操作只能作用于一个进程</div>
     <div class="tags">
-      5 Dec 2016
+      23 Dec 2016
       
         
-          <a href="https://jackeylee007.github.io//tags/%E5%88%86%E5%B8%83%E5%BC%8F/">#分布式</a>
+          <a href="https://jackeylee007.github.io//tags/haproxy/">#HAProxy</a>
         
-          <a href="https://jackeylee007.github.io//tags/rpc/">#RPC</a>
-        
-          <a href="https://jackeylee007.github.io//tags/mq/">#MQ</a>
+          <a href="https://jackeylee007.github.io//tags/%E9%AB%98%E5%8F%AF%E7%94%A8/">#高可用</a>
         
        
     </div>

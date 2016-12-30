@@ -149,6 +149,38 @@
 
 
   <div class="article">
+    <div class="title"><a href="https://jackeylee007.github.io/2016/12/30/kafka_message_delivery_semantics/">kafka的消息传递语义</a></div>
+    
+      <div class="categories">
+        
+          <a href="https://jackeylee007.github.io//categories/%E6%8A%80%E6%9C%AF/">技术</a>
+        
+      </div>
+     
+    <div class="description">对于Producer 对于Producer，Kafka从两个方面来保证消息的发送：
+ 设置消息发送失败后的重发次数，配置选项retries，范围是[0,&hellip;,2147483647]，缺省值0
+ 设置回执，配置选项 ack，范围是[-1, 0, 1]，缺省值1。-1表示所有的in-sync节点都已响应，0表示不必等待回执，1表示主节点（leader node）已响应。
+  因此，在broker始终有效的情况下，只要设置好重发次数，以及回执，就可以保证kafka已经接收到消息。
+注意，这里只是保证kafka能接收到消息（at-least-once），但没有保证只接受一次（exactly-once）。exactly-once需要设置消息的主键，并保证消息发送的冪等性（即便kafka重启后也能保证）。但这对一个分布式系统来讲并不容易，期待kafka能在未来的版本中实现。
+对于Consumer Consumer在实现时需要考虑宕机的情形，即程序重启时能够从上次失败的地方接着处理，而关键就是能够获知已处理的消息的offset。此时有三种选择：
+ 先保存消息的处理结果，再存offset
+ 先存offset，再保存消息的处理结果
+ 将offset保存在消息的处理结果中
+  前面两种方法由于存在先后关系，因此可能存在不一致的情形。要么消息可能会多处理几次（at-least-once），要么可能会没有被处理（at-most-once）。
+第三种方法则可以保证消息只被处理一次，即exactly-once。</div>
+    <div class="tags">
+      30 Dec 2016
+      
+        
+          <a href="https://jackeylee007.github.io//tags/mq/">#MQ</a>
+        
+          <a href="https://jackeylee007.github.io//tags/kafka/">#Kafka</a>
+        
+       
+    </div>
+  </div>
+
+  <div class="article">
     <div class="title"><a href="https://jackeylee007.github.io/2016/12/15/kafka_leader_election/">Kafka是如何选择Leader的</a></div>
     
       <div class="categories">
