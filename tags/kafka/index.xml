@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>RocWay的博客</title>
+    <title>鲲鹏展翅</title>
     <link>https://JackeyLee007.github.io/tags/kafka/index.xml</link>
-    <description>Recent content on RocWay的博客</description>
+    <description>Recent content on 鲲鹏展翅</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-zh</language>
-    <copyright>© 2017 Copyright Text</copyright>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2017. All rights reserved.</copyright>
     <atom:link href="https://JackeyLee007.github.io/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>kafka的消息传递语义</title>
-      <link>https://jackeylee007.github.io/2016/12/30/kafka_message_delivery_semantics/</link>
+      <link>https://jackeylee007.github.io/post/kafka_Message_delivery_semantics/</link>
       <pubDate>Fri, 30 Dec 2016 12:16:08 +0800</pubDate>
       
-      <guid>https://jackeylee007.github.io/2016/12/30/kafka_message_delivery_semantics/</guid>
+      <guid>https://jackeylee007.github.io/post/kafka_Message_delivery_semantics/</guid>
       <description>
 
 &lt;h2 id=&#34;对于producer&#34;&gt;对于Producer&lt;/h2&gt;
@@ -22,9 +22,8 @@
 &lt;p&gt;对于Producer，Kafka从两个方面来保证消息的发送：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;设置消息发送失败后的重发次数，配置选项retries，范围是[0,&amp;hellip;,2147483647]，缺省值0&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;设置回执，配置选项 ack，范围是[-1, 0, 1]，缺省值1。-1表示所有的in-sync节点都已响应，0表示不必等待回执，1表示主节点（leader node）已响应。&lt;br /&gt;
-&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;设置消息发送失败后的重发次数，配置选项retries，范围是[0,&amp;hellip;,2147483647]，缺省值0&lt;/li&gt;
+&lt;li&gt;设置回执，配置选项 ack，范围是[-1, 0, 1]，缺省值1。-1表示所有的in-sync节点都已响应，0表示不必等待回执，1表示主节点（leader node）已响应。&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;因此，在broker始终有效的情况下，只要设置好重发次数，以及回执，就可以保证kafka已经接收到消息。&lt;/p&gt;
@@ -36,39 +35,38 @@
 &lt;p&gt;Consumer在实现时需要考虑宕机的情形，即程序重启时能够从上次失败的地方接着处理，而关键就是能够获知已处理的消息的offset。此时有三种选择：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;先保存消息的处理结果，再存offset&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;先存offset，再保存消息的处理结果&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;将offset保存在消息的处理结果中&lt;br /&gt;
-&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;先保存消息的处理结果，再存offset&lt;/li&gt;
+&lt;li&gt;先存offset，再保存消息的处理结果&lt;/li&gt;
+&lt;li&gt;将offset保存在消息的处理结果中&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;前面两种方法由于存在先后关系，因此可能存在不一致的情形。要么消息可能会多处理几次（at-least-once），要么可能会没有被处理（at-most-once）。&lt;br /&gt;
+&lt;p&gt;前面两种方法由于存在先后关系，因此可能存在不一致的情形。要么消息可能会多处理几次（at-least-once），要么可能会没有被处理（at-most-once）。
 第三种方法则可以保证消息只被处理一次，即exactly-once。&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Kafka是如何选择Leader的</title>
-      <link>https://jackeylee007.github.io/2016/12/15/kafka_leader_election/</link>
+      <link>https://jackeylee007.github.io/post/kafka_leader_election/</link>
       <pubDate>Thu, 15 Dec 2016 11:22:27 +0800</pubDate>
       
-      <guid>https://jackeylee007.github.io/2016/12/15/kafka_leader_election/</guid>
+      <guid>https://jackeylee007.github.io/post/kafka_leader_election/</guid>
       <description>
 
 &lt;h2 id=&#34;kafka是如何选择leader的&#34;&gt;Kafka是如何选择Leader的&lt;/h2&gt;
 
 &lt;h2 id=&#34;kafka的leader是什么&#34;&gt;Kafka的Leader是什么&lt;/h2&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;首先Kafka会将接收到的消息分区（partition），每个主题（topic）的消息有不同的分区。这样一方面消息的存储就不会受到单一服务器存储空间大小的限制，另一方面消息的处理也可以在多个服务器上并行。&lt;br /&gt;
-&amp;emsp;&amp;emsp;其次为了保证高可用，每个分区都会有一定数量的副本（replica）。这样如果有部分服务器不可用，副本所在的服务器就会接替上来，保证应用的持续性。&lt;br /&gt;
-&lt;img src=&#34;http://kafka.apache.org/0101/images/log_anatomy.png&#34; alt=&#34;&#34; /&gt;&lt;br /&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;首先Kafka会将接收到的消息分区（partition），每个主题（topic）的消息有不同的分区。这样一方面消息的存储就不会受到单一服务器存储空间大小的限制，另一方面消息的处理也可以在多个服务器上并行。
+&amp;emsp;&amp;emsp;其次为了保证高可用，每个分区都会有一定数量的副本（replica）。这样如果有部分服务器不可用，副本所在的服务器就会接替上来，保证应用的持续性。
+&lt;img src=&#34;http://kafka.apache.org/0101/images/log_anatomy.png&#34; alt=&#34;&#34; /&gt;
 &amp;emsp;&amp;emsp;但是，为了保证较高的处理效率，消息的读写都是在固定的一个副本上完成。这个副本就是所谓的Leader，而其他副本则是Follower。而Follower则会定期地到Leader上同步数据。&lt;/p&gt;
 
 &lt;h2 id=&#34;leader选举&#34;&gt;Leader选举&lt;/h2&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;如果某个分区所在的服务器除了问题，不可用，kafka会从该分区的其他的副本中选择一个作为新的Leader。之后所有的读写就会转移到这个新的Leader上。现在的问题是应当选择哪个作为新的Leader。显然，只有那些跟Leader保持同步的Follower才应该被选作新的Leader。&lt;br /&gt;
-&amp;emsp;&amp;emsp;Kafka会在Zookeeper上针对每个Topic维护一个称为ISR（in-sync replica，已同步的副本）的集合，该集合中是一些分区的副本。只有当这些副本都跟Leader中的副本同步了之后，kafka才会认为消息已提交，并反馈给消息的生产者。如果这个集合有增减，kafka会更新zookeeper上的记录。&lt;br /&gt;
-&amp;emsp;&amp;emsp;如果某个分区的Leader不可用，Kafka就会从ISR集合中选择&lt;strong&gt;&lt;em&gt;一个&lt;/em&gt;&lt;/strong&gt;副本作为新的Leader。&lt;br /&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;如果某个分区所在的服务器除了问题，不可用，kafka会从该分区的其他的副本中选择一个作为新的Leader。之后所有的读写就会转移到这个新的Leader上。现在的问题是应当选择哪个作为新的Leader。显然，只有那些跟Leader保持同步的Follower才应该被选作新的Leader。
+&amp;emsp;&amp;emsp;Kafka会在Zookeeper上针对每个Topic维护一个称为ISR（in-sync replica，已同步的副本）的集合，该集合中是一些分区的副本。只有当这些副本都跟Leader中的副本同步了之后，kafka才会认为消息已提交，并反馈给消息的生产者。如果这个集合有增减，kafka会更新zookeeper上的记录。
+&amp;emsp;&amp;emsp;如果某个分区的Leader不可用，Kafka就会从ISR集合中选择&lt;strong&gt;&lt;em&gt;一个&lt;/em&gt;&lt;/strong&gt;副本作为新的Leader。
 &amp;emsp;&amp;emsp;显然通过ISR，kafka需要的冗余度较低，可以容忍的失败数比较高。假设某个topic有f+1个副本，kafka可以容忍f个服务器不可用。&lt;/p&gt;
 
 &lt;h2 id=&#34;为什么不用少数服从多数的方法&#34;&gt;为什么不用少数服从多数的方法&lt;/h2&gt;
@@ -77,7 +75,7 @@
 
 &lt;h2 id=&#34;如果所有的isr副本都失败了怎么办&#34;&gt;如果所有的ISR副本都失败了怎么办&lt;/h2&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;此时有两种方法可选，一种是等待ISR集合中的副本复活，一种是选择任何一个立即可用的副本，而这个副本不一定是在ISR集合中。这两种方法各有利弊，实际生产中按需选择。&lt;br /&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;此时有两种方法可选，一种是等待ISR集合中的副本复活，一种是选择任何一个立即可用的副本，而这个副本不一定是在ISR集合中。这两种方法各有利弊，实际生产中按需选择。
 &amp;emsp;&amp;emsp;如果要等待ISR副本复活，虽然可以保证一致性，但可能需要很长时间。而如果选择立即可用的副本，则很可能该副本并不一致。&lt;/p&gt;
 </description>
     </item>

@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>RocWay的博客</title>
+    <title>鲲鹏展翅</title>
     <link>https://JackeyLee007.github.io/tags/zookeeper/index.xml</link>
-    <description>Recent content on RocWay的博客</description>
+    <description>Recent content on 鲲鹏展翅</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-zh</language>
-    <copyright>© 2017 Copyright Text</copyright>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2017. All rights reserved.</copyright>
     <atom:link href="https://JackeyLee007.github.io/tags/zookeeper/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>zookeeper最有价值的三个特征</title>
-      <link>https://jackeylee007.github.io/2016/12/30/zookeeper_valuable_feature/</link>
+      <link>https://jackeylee007.github.io/post/zookeeper_valuable_feature/</link>
       <pubDate>Fri, 30 Dec 2016 14:22:21 +0800</pubDate>
       
-      <guid>https://jackeylee007.github.io/2016/12/30/zookeeper_valuable_feature/</guid>
+      <guid>https://jackeylee007.github.io/post/zookeeper_valuable_feature/</guid>
       <description>&lt;ol&gt;
-&lt;li&gt;感知变化&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;临时节点&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;保持一致&lt;br /&gt;
-&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;感知变化&lt;/li&gt;
+&lt;li&gt;临时节点&lt;/li&gt;
+&lt;li&gt;保持一致&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;客户端可以感知znode的变化，包括节点的创建、删除、值的修改、子节点的变化，这使得zookeeper可以作为集群的动态服务配置中心。&lt;/p&gt;

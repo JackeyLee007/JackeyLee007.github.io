@@ -1,223 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
 
-<!doctype html>
-<html lang="en-zh">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-  <title>Algorithm</title>
-  <script src="https://jackeylee007.github.io//bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/iron-icons/iron-icons.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-drawer-panel/paper-drawer-panel.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-icon-button/paper-icon-button.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-toolbar/paper-toolbar.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-fab/paper-fab.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-item/paper-item.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-menu/paper-menu.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/iron-image/iron-image.html">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
-  <style is="custom-style">
-    body {
-      font-family: 'Roboto', sans-serif;
-    }
-    .nav {
-      border-right: 1px solid #ccc;
-    }
-    
-    paper-scroll-header-panel {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: var(--paper-grey-200, #eee);
-       
-      --paper-scroll-header-panel-full-header: {
-        background-image: url(https://jackeylee007.github.io//images/cover.png);
-      };
-       
-      --paper-scroll-header-panel-condensed-header: {
-        background-image: url(https://jackeylee007.github.io//images/cover.png);
-      };
-    }
-    
-    paper-toolbar {
-       
-      height: 256px;
-      background-color: transparent;
-    }
-    .profile{
-      width: 100%;
-      padding-bottom: 20px;
-    }
-    .photo{
-      margin: 20px;
-      display: inline-block;
-      height: 64px; width: 64px;
-      border-radius: 50%;
-    }
-    .article{
-      border: 1px solid #bebebe;
-      padding: 16px;
-      margin: 16px;
-      border-radius: 5px;
-      background-color: #fff;
-    }
-    .title{
-      font-size: 22px;
-      padding: 8px 0 16px;
-    }
-    .description{
-      font-size: 16px;
-      padding-bottom: 8px;
-    }
-    .author{
-      font-size: 16px;
-      padding-left: 20px;
-      color: white;
-    }
-    .design{
-      font-size: 14px;
-    }
-    .copyright{
-      font-size: 16px;
-    }
-    paper-menu a {
-      text-decoration: none;
-      color: #212121;
-    }
-  </style>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.17" />
+
+  <title>Algorithm &middot; 鲲鹏展翅</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://JackeyLee007.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://JackeyLee007.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://JackeyLee007.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="鲲鹏展翅" href="https://JackeyLee007.github.io/tags/algorithm/index.xml" />
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jackeylee007.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
 
 </head>
+
+
 <body>
-  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
-    <div class="nav scroll" drawer>
-    
-      <iron-image class="profile" sizing="cover" src="https://jackeylee007.github.io//images/profile.png">
-    
-        
-          <iron-image class="photo" sizing="cover" src="https://jackeylee007.github.io//images/photo.png"></iron-image>
-        
-          <div class="author">RocWay</div>
-      </iron-image>
-      <paper-menu>
-        <a href="https://jackeylee007.github.io/"><paper-item>
-          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-        <a href="https://jackeylee007.github.io//categories/"><paper-item>
-          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-        <a href="https://jackeylee007.github.io//tags/"><paper-item>
-          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-      </paper-menu>
-    </div>
+<div id="layout">
 
-    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
 
-      <paper-toolbar>
+  
+  <a class="pure-menu-heading brand" href="https://JackeyLee007.github.io/">RocWay</a>
 
-        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-        <div class="bottom title">RocWay的博客</div>
-        <div class="flex"></div>
-        
-          <a href="https://www.facebook.com/Your%20facebook%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/facebook-dreamstale25.png"></paper-icon-button></a>
-        
-        
-          <a href="https://twitter.com/Your%20Twitter%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/twitter-dreamstale71.png"></paper-icon-button></a>
-        
-        
-          <a href="https://google.com/+Your%20Google&#43;%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/google+-dreamstale37.png"></paper-icon-button></a>
-        
-        
-          <a href="https://www.linkedin.com/in/Your%20linkedin%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/linkedin-dreamstale45.png"></paper-icon-button></a>
-        
-        
-          <a href="https://github.com/JackeyLee007"><paper-icon-button src="https://jackeylee007.github.io//images/github2-dreamstale35.png"></paper-icon-button></a>
-        
-          <a href="https://jackeylee007.github.io//index.xml"><paper-icon-button src="https://jackeylee007.github.io//images/feed-dreamstale27.png"></paper-icon-button></a>
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
       
-      </paper-toolbar>
-
-
-
-<div class="content">
-
-
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/15/kafka_leader_election/">Kafka是如何选择Leader的</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
-        
-          <a href="https://jackeylee007.github.io//categories/mq/">MQ</a>
-        
-      </div>
-     
-    <div class="description">Kafka是如何选择Leader的 Kafka的Leader是什么 &emsp;&emsp;首先Kafka会将接收到的消息分区（partition），每个主题（topic）的消息有不同的分区。这样一方面消息的存储就不会受到单一服务器存储空间大小的限制，另一方面消息的处理也可以在多个服务器上并行。
-&emsp;&emsp;其次为了保证高可用，每个分区都会有一定数量的副本（replica）。这样如果有部分服务器不可用，副本所在的服务器就会接替上来，保证应用的持续性。
-&emsp;&emsp;但是，为了保证较高的处理效率，消息的读写都是在固定的一个副本上完成。这个副本就是所谓的Leader，而其他副本则是Follower。而Follower则会定期地到Leader上同步数据。
-Leader选举 &emsp;&emsp;如果某个分区所在的服务器除了问题，不可用，kafka会从该分区的其他的副本中选择一个作为新的Leader。之后所有的读写就会转移到这个新的Leader上。现在的问题是应当选择哪个作为新的Leader。显然，只有那些跟Leader保持同步的Follower才应该被选作新的Leader。
-&emsp;&emsp;Kafka会在Zookeeper上针对每个Topic维护一个称为ISR（in-sync replica，已同步的副本）的集合，该集合中是一些分区的副本。只有当这些副本都跟Leader中的副本同步了之后，kafka才会认为消息已提交，并反馈给消息的生产者。如果这个集合有增减，kafka会更新zookeeper上的记录。
-&emsp;&emsp;如果某个分区的Leader不可用，Kafka就会从ISR集合中选择一个副本作为新的Leader。
-&emsp;&emsp;显然通过ISR，kafka需要的冗余度较低，可以容忍的失败数比较高。假设某个topic有f+1个副本，kafka可以容忍f个服务器不可用。
-为什么不用少数服从多数的方法 &emsp;&emsp;少数服从多数是一种比较常见的一致性算法和Leader选举法。它的含义是只有超过半数的副本同步了，系统才会认为数据已同步；选择Leader时也是从超过半数的同步的副本中选择。这种算法需要较高的冗余度。譬如只允许一台机器失败，需要有三个副本；而如果只容忍两台机器失败，则需要五个副本。而kafka的ISR集合方法，分别只需要两个和三个副本。
-如果所有的ISR副本都失败了怎么办 &emsp;&emsp;此时有两种方法可选，一种是等待ISR集合中的副本复活，一种是选择任何一个立即可用的副本，而这个副本不一定是在ISR集合中。这两种方法各有利弊，实际生产中按需选择。
-&emsp;&emsp;如果要等待ISR副本复活，虽然可以保证一致性，但可能需要很长时间。而如果选择立即可用的副本，则很可能该副本并不一致。</div>
-    <div class="tags">
-      15 Dec 2016
       
-        
-          <a href="https://jackeylee007.github.io//tags/kafka/">#kafka</a>
-        
-          <a href="https://jackeylee007.github.io//tags/algorithm/">#algorithm</a>
-        
-          <a href="https://jackeylee007.github.io//tags/leader/">#Leader</a>
-        
-          <a href="https://jackeylee007.github.io//tags/partition/">#partition</a>
-        
-       
-    </div>
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://JackeyLee007.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://JackeyLee007.github.io/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://JackeyLee007.github.io/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://JackeyLee007.github.io/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+    </ul>
   </div>
 
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://JackeyLee007.github.io/tags/algorithm/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/*" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/*" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/*" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/*" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/JackeyLee007" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/6503007/rocway" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2017. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
 
 </div>
 
 
-<paper-item>
-  
-    <paper-fab disabled icon="chevron-left"></paper-fab>
-  
-    <div class="flex"></div>
-  
-    <paper-fab disabled icon="chevron-right"></paper-fab>
-  
-</paper-item>
+  <div id="main">
 
 
-      <paper-item>
-        <div class="copyright">© 2017 Copyright Text</div>
-        <div class="flex"></div>
-        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
-      </paper-item>
-    </paper-scroll-header-panel>
-  </paper-drawer-panel>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+<div class="header">
+  <h1>Algorithm</h1>
+</div>
+
+<div class="content">
   
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'Your Analytics User Id', 'auto');
-    ga('send', 'pageview');
-  </script>
+    <article>
+  <header>
+    <h2><a href="https://jackeylee007.github.io/post/kafka_leader_election/">Kafka是如何选择Leader的</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>15 Dec 2016, 11:22</time>
+  </div>
+
   
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://jackeylee007.github.io/tags/kafka">kafka</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://jackeylee007.github.io/tags/algorithm">algorithm</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://jackeylee007.github.io/tags/leader">Leader</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://jackeylee007.github.io/tags/partition">partition</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Kafka是如何选择Leader的 Kafka的Leader是什么 &emsp;&emsp;首先Kafka会将接收到的消息分区（partition），每个主题（topic）的消息有不同的分区。这样一方面消息的存储就不会受到单一服务器存储空间大小的限制，另一方面消息的处理也可以在多个服务器上并行。 &emsp;&emsp;其次为了保证高可用，每个分区都会有一定数量的副本（replica）。这样如果有部分服务器不可用，副本所在的服务器就会接替上来，保证应用的持续性。 &emsp;&emsp;但是，为了保证较高的处理效率，消息的读写都是在固定的一个副本上完成。这个副本就是所谓的Leader，而其他副本则是Follower。而Follower则会定期地到Leader上同步数据。
+Leader选举 &emsp;&emsp;如果某个分区所在的服务器除了问题，不可用，kafka会从该分区的其他的副本中选择一个作为新的Leader。之后所有的读写就会转移到这个新的Leader上。现在的问题是应当选择哪个作为新的Leader。显然，只有那些跟Leader保持同步的Follower才应该被选作新的Leader。 &emsp;&emsp;Kafka会在Zookeeper上针对每个Topic维护一个称为ISR（in-sync replica，已同步的副本）的集合，该集合中是一些分区的副本。只有当这些副本都跟Leader中的副本同步了之后，kafka才会认为消息已提交，并反馈给消息的生产者。如果这个集合有增减，kafka会更新zookeeper上的记录。 &emsp;&emsp;如果某个分区的Leader不可用，Kafka就会从ISR集合中选择一个副本作为新的Leader。 &emsp;&emsp;显然通过ISR，kafka需要的冗余度较低，可以容忍的失败数比较高。假设某个topic有f+1个副本，kafka可以容忍f个服务器不可用。
+为什么不用少数服从多数的方法 &emsp;&emsp;少数服从多数是一种比较常见的一致性算法和Leader选举法。它的含义是只有超过半数的副本同步了，系统才会认为数据已同步；选择Leader时也是从超过半数的同步的副本中选择。这种算法需要较高的冗余度。譬如只允许一台机器失败，需要有三个副本；而如果只容忍两台机器失败，则需要五个副本。而kafka的ISR集合方法，分别只需要两个和三个副本。
+如果所有的ISR副本都失败了怎么办 &emsp;&emsp;此时有两种方法可选，一种是等待ISR集合中的副本复活，一种是选择任何一个立即可用的副本，而这个副本不一定是在ISR集合中。这两种方法各有利弊，实际生产中按需选择。 &emsp;&emsp;如果要等待ISR副本复活，虽然可以保证一致性，但可能需要很长时间。而如果选择立即可用的副本，则很可能该副本并不一致。
+  </p>
+
+  
+</article>
+
+  
+</div>
+
+</div>
+</div>
+<script src="https://jackeylee007.github.io/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'Your Google Analytics tracking ID', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
 </body>
 </html>

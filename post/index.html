@@ -1,437 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
 
-<!doctype html>
-<html lang="en-zh">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-  <title>Posts</title>
-  <script src="https://jackeylee007.github.io//bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/iron-icons/iron-icons.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-drawer-panel/paper-drawer-panel.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-icon-button/paper-icon-button.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-toolbar/paper-toolbar.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-fab/paper-fab.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-item/paper-item.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/paper-menu/paper-menu.html">
-  <link rel="import" href="https://jackeylee007.github.io//bower_components/iron-image/iron-image.html">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
-  <style is="custom-style">
-    body {
-      font-family: 'Roboto', sans-serif;
-    }
-    .nav {
-      border-right: 1px solid #ccc;
-    }
-    
-    paper-scroll-header-panel {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: var(--paper-grey-200, #eee);
-       
-      --paper-scroll-header-panel-full-header: {
-        background-image: url(https://jackeylee007.github.io//images/cover.png);
-      };
-       
-      --paper-scroll-header-panel-condensed-header: {
-        background-image: url(https://jackeylee007.github.io//images/cover.png);
-      };
-    }
-    
-    paper-toolbar {
-       
-      height: 256px;
-      background-color: transparent;
-    }
-    .profile{
-      width: 100%;
-      padding-bottom: 20px;
-    }
-    .photo{
-      margin: 20px;
-      display: inline-block;
-      height: 64px; width: 64px;
-      border-radius: 50%;
-    }
-    .article{
-      border: 1px solid #bebebe;
-      padding: 16px;
-      margin: 16px;
-      border-radius: 5px;
-      background-color: #fff;
-    }
-    .title{
-      font-size: 22px;
-      padding: 8px 0 16px;
-    }
-    .description{
-      font-size: 16px;
-      padding-bottom: 8px;
-    }
-    .author{
-      font-size: 16px;
-      padding-left: 20px;
-      color: white;
-    }
-    .design{
-      font-size: 14px;
-    }
-    .copyright{
-      font-size: 16px;
-    }
-    paper-menu a {
-      text-decoration: none;
-      color: #212121;
-    }
-  </style>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.17" />
+
+  <title>Posts &middot; 鲲鹏展翅</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://JackeyLee007.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://JackeyLee007.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://JackeyLee007.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="鲲鹏展翅" href="https://JackeyLee007.github.io/post/index.xml" />
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jackeylee007.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
 
 </head>
+
+
 <body>
-  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
-    <div class="nav scroll" drawer>
-    
-      <iron-image class="profile" sizing="cover" src="https://jackeylee007.github.io//images/profile.png">
-    
-        
-          <iron-image class="photo" sizing="cover" src="https://jackeylee007.github.io//images/photo.png"></iron-image>
-        
-          <div class="author">RocWay</div>
-      </iron-image>
-      <paper-menu>
-        <a href="https://jackeylee007.github.io/"><paper-item>
-          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-        <a href="https://jackeylee007.github.io//categories/"><paper-item>
-          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-        <a href="https://jackeylee007.github.io//tags/"><paper-item>
-          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-      </paper-menu>
-    </div>
+<div id="layout">
 
-    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
 
-      <paper-toolbar>
+  
+  <a class="pure-menu-heading brand" href="https://JackeyLee007.github.io/">RocWay</a>
 
-        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-        <div class="bottom title">RocWay的博客</div>
-        <div class="flex"></div>
-        
-          <a href="https://www.facebook.com/Your%20facebook%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/facebook-dreamstale25.png"></paper-icon-button></a>
-        
-        
-          <a href="https://twitter.com/Your%20Twitter%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/twitter-dreamstale71.png"></paper-icon-button></a>
-        
-        
-          <a href="https://google.com/+Your%20Google&#43;%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/google+-dreamstale37.png"></paper-icon-button></a>
-        
-        
-          <a href="https://www.linkedin.com/in/Your%20linkedin%20Name"><paper-icon-button src="https://jackeylee007.github.io//images/linkedin-dreamstale45.png"></paper-icon-button></a>
-        
-        
-          <a href="https://github.com/JackeyLee007"><paper-icon-button src="https://jackeylee007.github.io//images/github2-dreamstale35.png"></paper-icon-button></a>
-        
-          <a href="https://jackeylee007.github.io//index.xml"><paper-icon-button src="https://jackeylee007.github.io//images/feed-dreamstale27.png"></paper-icon-button></a>
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
       
-      </paper-toolbar>
-
-
-
-<div class="content">
-
-
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/30/corosync_vs_heartbeat/">Corosync vs Heartbeat</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
-        
-      </div>
-     
-    <div class="description">Corosync &emsp;&emsp;Corosync是一个带有高可用功能的组间通信系统，用C语言实现，有四个主要功能：
- 一个封闭的进程组间通信模型，可以保证分布式状态机间的同步
- 一个简单的可用性管理器，用于重启失败的应用程序
- 一个基于内存的配置、统计数据库，可以读写数据、感知信息的变化
- 一个资源配额管理系统，当应用使用的资源已达到其配额，或配额被削减，可以通知应用
-  &emsp;&emsp;Corosync常备用作Apache Qpid和Pacemaker的高可用框架。
-Heartbeat &emsp;&emsp;Heartbeat是一个后台进程，可以为其客户端提供集群环境（通信和成员关系）。让处于不同机器的客户端知道彼此的存在（或是下线），以及交换数据。
-&emsp;&emsp;Heartbeat应该与CRM（集群资源管理）系统结合在一起使用，后者可以起停集群中的各种资源，如IP地址、web服务等等，以保证系统的高可用。Pacemaker就是Heartbeat推荐的高可用框架。</div>
-    <div class="tags">
-      30 Dec 2016
       
-        
-          <a href="https://jackeylee007.github.io//tags/ha/">#HA</a>
-        
-          <a href="https://jackeylee007.github.io//tags/corosync/">#Corosync</a>
-        
-          <a href="https://jackeylee007.github.io//tags/heartbeat/">#Heartbeat</a>
-        
-       
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/30/zookeeper_valuable_feature/">zookeeper最有价值的三个特征</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://jackeylee007.github.io//categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
-        
-          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
-        
-      </div>
-     
-    <div class="description">感知变化
- 临时节点
- 保持一致
-  客户端可以感知znode的变化，包括节点的创建、删除、值的修改、子节点的变化，这使得zookeeper可以作为集群的动态服务配置中心。
-后台的服务可以将自己的连接信息创建为临时节点，这样在它下线时，节点也会随之删除。服务的使用方或调度者也就会知晓该服务已经不可用，要么换用其他服务，要么停止调用。这样做非常友好，也省去了对服务的检测。
-zookeeper集群有一种single system image特性，即各客户端看到的集群状态是一致的，包括节点、数据等。因此各个客户端可以据此进行同步。</div>
-    <div class="tags">
-      30 Dec 2016
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://JackeyLee007.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
       
-        
-          <a href="https://jackeylee007.github.io//tags/zookeeper/">#Zookeeper</a>
-        
-       
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/30/kafka_message_delivery_semantics/">kafka的消息传递语义</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://jackeylee007.github.io//categories/%E6%8A%80%E6%9C%AF/">技术</a>
-        
-      </div>
-     
-    <div class="description">对于Producer 对于Producer，Kafka从两个方面来保证消息的发送：
- 设置消息发送失败后的重发次数，配置选项retries，范围是[0,&hellip;,2147483647]，缺省值0
- 设置回执，配置选项 ack，范围是[-1, 0, 1]，缺省值1。-1表示所有的in-sync节点都已响应，0表示不必等待回执，1表示主节点（leader node）已响应。
-  因此，在broker始终有效的情况下，只要设置好重发次数，以及回执，就可以保证kafka已经接收到消息。
-注意，这里只是保证kafka能接收到消息（at-least-once），但没有保证只接受一次（exactly-once）。exactly-once需要设置消息的主键，并保证消息发送的冪等性（即便kafka重启后也能保证）。但这对一个分布式系统来讲并不容易，期待kafka能在未来的版本中实现。
-对于Consumer Consumer在实现时需要考虑宕机的情形，即程序重启时能够从上次失败的地方接着处理，而关键就是能够获知已处理的消息的offset。此时有三种选择：
- 先保存消息的处理结果，再存offset
- 先存offset，再保存消息的处理结果
- 将offset保存在消息的处理结果中
-  前面两种方法由于存在先后关系，因此可能存在不一致的情形。要么消息可能会多处理几次（at-least-once），要么可能会没有被处理（at-most-once）。
-第三种方法则可以保证消息只被处理一次，即exactly-once。</div>
-    <div class="tags">
-      30 Dec 2016
+        </li>
       
-        
-          <a href="https://jackeylee007.github.io//tags/mq/">#MQ</a>
-        
-          <a href="https://jackeylee007.github.io//tags/kafka/">#Kafka</a>
-        
-       
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/23/haproxy_single_process/">HAProxy为何选择单进程</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
-        
-      </div>
-     
-    <div class="description">首先澄清一下：HAProxy支持多进程，需要运行在daemon模式下，并设置global区的nbproc参数。缺省情况下，HAProxy只会启动一个进程。
- 尽管多进程可以提高CPU的利用率，但是仍然有一些限制需要考虑：
-每个HAProxy进程都会对服务器执行健康检查，因此进程越多，服务器收到的打扰就越多。
-最大连接数和最大队列数的设置是针对每个进程的，因此设置的时候要注意不要超过服务器的限制
-外向连接应当避免使用端口范围，否则会引起冲突
-每个进程都有一个定向表（stick-tables，即用户到服务器的映射关系），进程间并不共享
-在每一时刻，每一个Peer组可能只能跑一个进程
-HAProxy的CLI（命令行接口）操作只能作用于一个进程</div>
-    <div class="tags">
-      23 Dec 2016
       
-        
-          <a href="https://jackeylee007.github.io//tags/haproxy/">#HAProxy</a>
-        
-          <a href="https://jackeylee007.github.io//tags/%E9%AB%98%E5%8F%AF%E7%94%A8/">#高可用</a>
-        
-       
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/15/kafka_leader_election/">Kafka是如何选择Leader的</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
-        
-          <a href="https://jackeylee007.github.io//categories/mq/">MQ</a>
-        
-      </div>
-     
-    <div class="description">Kafka是如何选择Leader的 Kafka的Leader是什么 &emsp;&emsp;首先Kafka会将接收到的消息分区（partition），每个主题（topic）的消息有不同的分区。这样一方面消息的存储就不会受到单一服务器存储空间大小的限制，另一方面消息的处理也可以在多个服务器上并行。
-&emsp;&emsp;其次为了保证高可用，每个分区都会有一定数量的副本（replica）。这样如果有部分服务器不可用，副本所在的服务器就会接替上来，保证应用的持续性。
-&emsp;&emsp;但是，为了保证较高的处理效率，消息的读写都是在固定的一个副本上完成。这个副本就是所谓的Leader，而其他副本则是Follower。而Follower则会定期地到Leader上同步数据。
-Leader选举 &emsp;&emsp;如果某个分区所在的服务器除了问题，不可用，kafka会从该分区的其他的副本中选择一个作为新的Leader。之后所有的读写就会转移到这个新的Leader上。现在的问题是应当选择哪个作为新的Leader。显然，只有那些跟Leader保持同步的Follower才应该被选作新的Leader。
-&emsp;&emsp;Kafka会在Zookeeper上针对每个Topic维护一个称为ISR（in-sync replica，已同步的副本）的集合，该集合中是一些分区的副本。只有当这些副本都跟Leader中的副本同步了之后，kafka才会认为消息已提交，并反馈给消息的生产者。如果这个集合有增减，kafka会更新zookeeper上的记录。
-&emsp;&emsp;如果某个分区的Leader不可用，Kafka就会从ISR集合中选择一个副本作为新的Leader。
-&emsp;&emsp;显然通过ISR，kafka需要的冗余度较低，可以容忍的失败数比较高。假设某个topic有f+1个副本，kafka可以容忍f个服务器不可用。
-为什么不用少数服从多数的方法 &emsp;&emsp;少数服从多数是一种比较常见的一致性算法和Leader选举法。它的含义是只有超过半数的副本同步了，系统才会认为数据已同步；选择Leader时也是从超过半数的同步的副本中选择。这种算法需要较高的冗余度。譬如只允许一台机器失败，需要有三个副本；而如果只容忍两台机器失败，则需要五个副本。而kafka的ISR集合方法，分别只需要两个和三个副本。
-如果所有的ISR副本都失败了怎么办 &emsp;&emsp;此时有两种方法可选，一种是等待ISR集合中的副本复活，一种是选择任何一个立即可用的副本，而这个副本不一定是在ISR集合中。这两种方法各有利弊，实际生产中按需选择。
-&emsp;&emsp;如果要等待ISR副本复活，虽然可以保证一致性，但可能需要很长时间。而如果选择立即可用的副本，则很可能该副本并不一致。</div>
-    <div class="tags">
-      15 Dec 2016
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://JackeyLee007.github.io/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
       
-        
-          <a href="https://jackeylee007.github.io//tags/kafka/">#kafka</a>
-        
-          <a href="https://jackeylee007.github.io//tags/algorithm/">#algorithm</a>
-        
-          <a href="https://jackeylee007.github.io//tags/leader/">#Leader</a>
-        
-          <a href="https://jackeylee007.github.io//tags/partition/">#partition</a>
-        
-       
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/10/zerocice/">用Python开发Zeroc Ice应用</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
-        
-          <a href="https://jackeylee007.github.io//categories/%E5%B9%B3%E5%8F%B0/">平台</a>
-        
-      </div>
-     
-    <div class="description">用Python开发Zeroc Ice应用 Zeroc Ice简介 &emsp;&emsp;Zeroc ICE（Internet Communications Engine ，互联网通信引擎）是目前功能比较强大和完善的RPC框架，支持跨平台、跨语言调用。它非常灵活，可以通过TCP、UDP、SSL/TSL或WebSocket连接，支持同步、异步调用，以及服务器和客户端之间的双向连接。Zeroc ICE的效率非常高，它使用一种高效的二进制协议，对带宽的消耗比较小。甚至对于通过卫星的RPC调用，Zeroc ICE还可以对数据流进一步压缩。另外Zeroc ICE还可以在不解包的情况下转发调用请求，省去普通转发时的解包、重新压包的时间。
-&emsp;&emsp;Zeroc ICE的应用还可以部署在icegrid上，实现网格计算，即客户端调用时不必指定目标主机，由ICE负责查找；服务端也可以在调用时才开启，动态加载；同样的服务也可以部署多个，实现高可用。
-实验简介 &emsp;&emsp;Zeroc ICE支持跨语言RPC调用，包括C++、C#、Java、JavaScript、Python、Objective-C、Ruby、PHP、VB等。本次实验采用Python（Pyhon 2.7以上，或者Python 3都可以）。实验的内容是在icegrid上部署一个简单的服务器，当客户端调用时输出指定内容，并返回一个字符串。实验步骤如下：
- 安装Zeroc ICE
- 开发服务端和客户端程序
- 部署到icegrid
- 客户端调用
-  环境准备 &emsp;&emsp; 本次实验采用的操作系统是Ubuntu 14.04。如果使用其他操作系统，可以根据Zeroc ICE的文档相应调整。
-安装Zeroc Ice &emsp;&emsp; 如果系统中没有安装Zeroc ICE，并且ubuntu的软件源中也没有zeroc ice，可以按照下面的步骤安装。
-&gt; sudo apt-key adv &ndash;keyserver keyserver.ubuntu.com &ndash;recv 5E6DA83306132997
-&gt; sudo apt-add-repository &ldquo;deb http://zeroc.com/download/apt/ubuntu$(lsb_release -rs) stable main&rdquo;
-&gt; sudo apt-get update
-&gt; sudo apt-get install zeroc-ice-all-runtime zeroc-ice-all-dev
-&emsp;&emsp;安装之后系统中就有了slice2cpp、slice2java等Sliece（Zeroc ICE定义的接口描述语言，IDL）文件到相应语言的转换程序，以及icegrid、iceregistry、icegridadmin等程序。如果缺少目标语言的工具（例如slice2py）或开发包，还需要特别安装。</div>
-    <div class="tags">
-      10 Dec 2016
+        </li>
       
-        
-          <a href="https://jackeylee007.github.io//tags/rpc/">#RPC</a>
-        
-          <a href="https://jackeylee007.github.io//tags/zeroc-ice/">#Zeroc ICE</a>
-        
-       
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/12/05/mqvsrpc/">MQ vs RPC</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://jackeylee007.github.io//categories/%E6%9E%B6%E6%9E%84/">架构</a>
-        
-      </div>
-     
-    <div class="description">MQ vs RPC &emsp;&emsp;消息队列和远程调用
-[TOC]
-架构模型 RPC的特点是：
- 客户端同步调用服务器上的方法、过程
- 客户端的请求只能由一个服务器处理，虽然请求可以分发到不同的服务器，但一次只能由一个服务器处理
- 架构简单、明晰
-  MQ的特点是:
- 消息的发送者和消费者解耦，即消息的产生和处理是异步的
- 一条消息的消费者可以有多个
- 消息可以保存在MQ系统中，消费者可以重新消费
- 架构比RPC稍显复杂
-  适用场景 RPC比较适合 - 客户端调用哪个服务器比较明确 - 调用需要立即得到返回结果 - 架构简单  &emsp;&emsp;在一个由多个微服务构成的大系统中，某些关键服务间的调用应当在较短的时间内返回，而且各个微服务的专业化程度较高，同一个请求的关注者只有一个。这个时候就应该用RPC。
-&emsp;&emsp;比如在一个ERP系统中，有一个管理仓储的微服务，以及一个负责订单的微服务。新建订单时需要查知当前的存货是否充足，如果不充足就通知用户；提交订单时预订指定数量的货物，如果此时货物不错，也要终止订单的提交，并通知用户。显然在这种场景下是不允许较大的延迟，否则会影响用户体验。所以应该使用RPC，及时返回仓储情况。
-MQ比较适合 - 消息的发送者和消费者需要解耦的情况 - 发送者并不明确谁是消费者 - 发送者并不关心谁来消费消息 - 各个消费者可以从不同的角度入手处理消息 - 消费者的处理结果也不返回给发送者 - 消息的发送和处理是异步的 - 消息的关注者不止一个  &emsp;&emsp;在一个由多个微服务构成的大系统中，会有一些非关键服务，用来执行一些不需要立刻得到结果的计算。而且它们的计算结果并不会返回给消息的发送者。这个时候就应该使用MQ。
-&emsp;&emsp;比如在一个ERP系统中有一些日志服务、业务监控服务等。这些服务会发布一些系统事件，针对这些事件可能有多个应用关注。对于日志服务，当系统出现某些异常情况时需要浏览日志，查找问题的根源；也可以在分析系统运行的瓶颈时提供关键数据。对于业务监控系统，例如货物入仓出仓的消息，可以被报表系统关注，生成报表；也可以被配货系统关注，及时补足所需库存。</div>
-    <div class="tags">
-      5 Dec 2016
       
-        
-          <a href="https://jackeylee007.github.io//tags/%E5%88%86%E5%B8%83%E5%BC%8F/">#分布式</a>
-        
-          <a href="https://jackeylee007.github.io//tags/rpc/">#RPC</a>
-        
-          <a href="https://jackeylee007.github.io//tags/mq/">#MQ</a>
-        
-       
-    </div>
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://JackeyLee007.github.io/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://JackeyLee007.github.io/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+    </ul>
   </div>
 
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/11/28/cassandra/">cassandra</a></div>
-     
-    <div class="description"></div>
-    <div class="tags">
-      28 Nov 2016
-       
-    </div>
-  </div>
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
 
-  <div class="article">
-    <div class="title"><a href="https://jackeylee007.github.io/2016/11/28/second/">second</a></div>
-     
-    <div class="description"></div>
-    <div class="tags">
-      28 Nov 2016
-       
-    </div>
-  </div>
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://JackeyLee007.github.io/post/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
+    
 
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/*" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/*" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/*" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/*" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/JackeyLee007" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/6503007/rocway" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2017. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
 
 </div>
 
 
-<paper-item>
-  
-    <paper-fab disabled icon="chevron-left"></paper-fab>
-  
-    <div class="flex"></div>
-  
-    <paper-fab disabled icon="chevron-right"></paper-fab>
-  
-</paper-item>
+  <div id="main">
 
 
-      <paper-item>
-        <div class="copyright">© 2017 Copyright Text</div>
-        <div class="flex"></div>
-        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
-      </paper-item>
-    </paper-scroll-header-panel>
-  </paper-drawer-panel>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+<div class="header">
+  <h1>Posts</h1>
+</div>
+<div class="content">
   
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'Your Analytics User Id', 'auto');
-    ga('send', 'pageview');
-  </script>
+  <h2>2016</h2>
+  <ul>
   
+    <li><time>30 Dec 2016, 16:13</time> - <a href="https://jackeylee007.github.io/post/Corosync_vs_Heartbeat/">Corosync vs Heartbeat</a></li>
+
+  
+    <li><time>30 Dec 2016, 14:22</time> - <a href="https://jackeylee007.github.io/post/zookeeper_valuable_feature/">zookeeper最有价值的三个特征</a></li>
+
+  
+    <li><time>30 Dec 2016, 12:16</time> - <a href="https://jackeylee007.github.io/post/kafka_Message_delivery_semantics/">kafka的消息传递语义</a></li>
+
+  
+    <li><time>23 Dec 2016, 12:19</time> - <a href="https://jackeylee007.github.io/post/HAProxy_single_process/">HAProxy为何选择单进程</a></li>
+
+  
+    <li><time>15 Dec 2016, 11:22</time> - <a href="https://jackeylee007.github.io/post/kafka_leader_election/">Kafka是如何选择Leader的</a></li>
+
+  
+    <li><time>10 Dec 2016, 17:13</time> - <a href="https://jackeylee007.github.io/post/zerocice/">用Python开发Zeroc Ice应用</a></li>
+
+  
+    <li><time>05 Dec 2016, 16:29</time> - <a href="https://jackeylee007.github.io/post/MQvsRPC/">MQ vs RPC</a></li>
+
+  
+    <li><time>28 Nov 2016, 16:58</time> - <a href="https://jackeylee007.github.io/post/work/cassandra/">cassandra</a></li>
+
+  
+    <li><time>28 Nov 2016, 15:43</time> - <a href="https://jackeylee007.github.io/post/second/">second</a></li>
+
+  
+  </ul>
+  
+</div>
+
+</div>
+</div>
+<script src="https://jackeylee007.github.io/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'Your Google Analytics tracking ID', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
 </body>
 </html>
+
